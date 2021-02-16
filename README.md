@@ -1,4 +1,4 @@
-# pos-web-vue
+# pos-vue-ts-1
 
 ## Project setup
 ```
