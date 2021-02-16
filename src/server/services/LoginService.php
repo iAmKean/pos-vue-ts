@@ -7,9 +7,14 @@ $params = json_decode(file_get_contents("php://input"), true);
 if ($params) {
   switch($params['request']) {
     case 1:
-      // select admin
+      // login
         $data = new LoginData($conn);
-        echo json_encode($data->getAdminBy($params['data']));
+        echo json_encode($data->Login($params['data']));
+        break;
+    case 2:
+      // login log
+        $data = new LoginData($conn);
+        echo json_encode($data->LoginLog($params['data']));
         break;
     default:
       echo "Invalid Request";

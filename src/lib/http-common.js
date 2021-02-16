@@ -1,7 +1,7 @@
 import axios from "axios";
 
 var instance = axios.create({
-  baseURL: "http://localhost/pos-vue-ts-server",
+  baseURL: "http://localhost/pos-vue-server",
   timeout: 6000
 });
 

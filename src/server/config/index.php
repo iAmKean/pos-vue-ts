@@ -7,13 +7,7 @@ header ("Access-Control-Allow-Headers: *");
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db='db_studentportal';
-
-
-// $servername = "localhost";
-// $username = "kathdelacruz_studentportal_user_1";
-// $password = "R5NXMmQvhed]";
-// $db='kathdelacruz_student_portal_db';
+$db="db_pos";
 
 $conn = new mysqli($servername, $username, $password, $db);
 
