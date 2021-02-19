@@ -35,6 +35,16 @@ if ($params) {
       // update user
         $data = new UserData($conn);
         echo json_encode($data->updateUserPassword($params['data']));
+        break;
+    case 7:
+      // count active user
+        $data = new UserData($conn);
+        echo json_encode($data->countActiveUser($params['data']));
+        break;
+    case 8:
+      // count user
+        $data = new UserData($conn);
+        echo json_encode($data->countUser($params['data']));
         break; 
     default:
       echo "Invalid Request";

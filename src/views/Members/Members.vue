@@ -20,8 +20,8 @@
                   </el-row>
                 </div>
                 <div class="right">
-                  <el-tag type="success">Active User(s): 1</el-tag>
-                  <el-tag>Number of User(s): 1</el-tag>
+                  <el-tag type="success">Active User(s): {{ activeUserCount }}</el-tag>
+                  <el-tag>Number of User(s): {{ userCount }}</el-tag>
                 </div>
               </div>
               <Table />
@@ -47,9 +47,47 @@ export default {
     Table
   },
   data() {
-    return {};
+    return {
+      activeUserCount: '',
+      userCount: '',
+    };
   },
-  methods: {}
+  methods: {
+    countUserActive() {
+      let params = {
+        request: 7,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.UserService, params)
+        .then(response => {
+          this.activeUserCount = response.data.count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    countUser() {
+      let params = {
+        request: 8,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.UserService, params)
+        .then(response => {
+          this.userCount = response.data.count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  created() {
+    this.countUserActive();
+    this.countUser();
+  }
 };
 </script>
 <style lang="less">

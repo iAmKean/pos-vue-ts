@@ -14,13 +14,13 @@
       fixed="right"
       label="Operations"
       width="180">
-        <template slot="header" slot-scope="scope">
-          <el-input
-            v-model="search"
-            size="mini"
-            placeholder="Type to search"/>
-        </template>
-      <template slot-scope="scope">
+      <template slot="header" slot-scope="scope">
+        <el-input
+          v-model="search"
+          size="mini"
+          placeholder="Type to search"/>
+      </template>
+      <template slot-scope="scope" v-if="tableData[scope.$index].Role != '1'">
         <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
         <el-button type="text" size="small">Edit</el-button>
         <el-button type="text" size="small">Remove</el-button>
@@ -50,7 +50,7 @@ export default {
       }
       return '';
     },
-    getUser() {
+    getUsers() {
       let params = {
         request: 1,
         data: {}
@@ -59,7 +59,7 @@ export default {
       this.http
         .post(this.api.UserService, params)
         .then(response => {
-          console.log(response.data);
+          this.tableData = response.data;
         })
         .catch(error => {
           console.log(error);
@@ -67,7 +67,7 @@ export default {
     }
   },
   created() {
-    this.getUser();
+    this.getUsers();
   }
 }
 </script>
