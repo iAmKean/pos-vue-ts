@@ -1,0 +1,77 @@
+<template>
+  <el-col>
+    <el-menu
+      :default-active="`${activeTab}`"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+    >
+      <el-menu-item
+        v-for="(tabItem, tabKey) in tabItems"
+        :key="tabKey"
+        :index="`${tabKey}`"
+        @click="selectTabContent(tabItem.name)"
+      >
+        <i :class="tabItem.icon"></i>
+        <span>{{ tabItem.name }}</span>
+      </el-menu-item>
+    </el-menu>
+  </el-col>
+</template>
+
+<script>
+export default {
+  name: "Aside",
+  components: {},
+  data() {
+    return {
+      activeTab: "0",
+      tabItems: [
+        {
+          name: "Dashboard",
+          icon: "el-icon-s-data"
+        },
+        {
+          name: "Inventory",
+          icon: "el-icon-notebook-2"
+        },
+        {
+          name: "Sales",
+          icon: "el-icon-sell"
+        },
+        {
+          name: "Members",
+          icon: "el-icon-user-solid"
+        }
+      ],
+    };
+  },
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    selectTabContent(val) {
+      this.$emit("selectTabContent", val);
+    }
+  },
+  created() {}
+};
+</script>
+<style lang="less">
+.el-col {
+  height: 100%;
+  .el-menu {
+    height: 100%;
+  }
+  .el-menu li {
+    text-align: left;
+    padding: 0px 35px !important;
+  }
+}
+</style>
