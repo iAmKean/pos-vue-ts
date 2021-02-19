@@ -2,7 +2,7 @@ const tableProps = [
   {
     propName: "ID",
     propLabel: "ID",
-    width: "100"
+    width: "50"
   },
   {
     propName: "AccountID",
@@ -51,12 +51,12 @@ const tableProps = [
   // },
   {
     propName: "Status",
-    propLabel: "Status",
+    propLabel: "Account Status",
     width: "150"
   },
   {
     propName: "Role",
-    propLabel: "Role",
+    propLabel: "Account Role",
     width: "150"
   },
   {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="tableData"
+      :data="searchTable"
       height="520"
       :row-class-name="tableRowClassName"
       style="width: 100%">
@@ -10,6 +10,7 @@
         :key="propKey"
         :prop="propItem.propName"
         :label="propItem.propLabel"
+        :align="propKey == 2 ? 'left' : 'center'"
         :width="propItem.width"/>
       <el-table-column
         fixed="right"
@@ -75,6 +76,7 @@ export default {
           if (response.data.State == 1) {
             this.centerDialogVisible = false;
             this.userItem = {};
+            this.$emit('updateData');
             this.getUsers();
             this.$message({
               message: response.data.Message,
@@ -114,6 +116,19 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    }
+  },
+  computed: {
+    searchTable: function() {
+      if (this.search == "") return this.tableData;
+      return this.tableData.filter(item => {
+        return item.ID.indexOf(this.search) > -1 
+        || item.AccountID.indexOf(this.search) > -1
+        || item.AccountName.indexOf(this.search) > -1
+        || item.Role.indexOf(this.search) > -1
+        || item.AddedBy.indexOf(this.search) > -1
+        || item.Status.indexOf(this.search) > -1;
+      });
     }
   },
   created() {

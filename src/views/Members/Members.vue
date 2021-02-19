@@ -24,7 +24,7 @@
                   <el-tag>Number of User(s): {{ userCount }}</el-tag>
                 </div>
               </div>
-              <Table />
+              <Table @updateData="updateData()"/>
             </el-main>
           </el-container>
         </el-container>
@@ -82,6 +82,10 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    updateData() {
+      this.countUserActive();
+      this.countUser();
     }
   },
   created() {
