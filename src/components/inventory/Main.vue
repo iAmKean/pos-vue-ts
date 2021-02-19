@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <!-- <component :is="tabContent"></component> -->
+    inventory main
   </div>
 </template>
 
@@ -11,12 +11,7 @@ export default {
     return {};
   },
   methods: {},
-  props: {
-    tabContent: {
-      type: String,
-      default: "Dashboard"
-    }
-  },
+  props: {},
   created() {}
 };
 </script>

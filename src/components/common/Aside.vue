@@ -13,7 +13,7 @@
         v-for="(tabItem, tabKey) in tabItems"
         :key="tabKey"
         :index="`${tabKey}`"
-        @click="selectTabContent(tabItem.name)"
+        @click="selectTabContent(tabItem.link)"
       >
         <i :class="tabItem.icon"></i>
         <span>{{ tabItem.name }}</span>
@@ -28,26 +28,36 @@ export default {
   components: {},
   data() {
     return {
-      activeTab: "0",
+      // activeTab: "0",
       tabItems: [
         {
           name: "Dashboard",
-          icon: "el-icon-s-data"
+          icon: "el-icon-s-data",
+          link: 'Home',
         },
         {
           name: "Inventory",
-          icon: "el-icon-notebook-2"
+          icon: "el-icon-notebook-2",
+          link: 'Inventory',
         },
         {
           name: "Sales",
-          icon: "el-icon-sell"
+          icon: "el-icon-sell",
+          link: 'Sales',
         },
         {
           name: "Members",
-          icon: "el-icon-user-solid"
+          icon: "el-icon-user-solid",
+          link: 'Members',
         }
       ],
     };
+  },
+  props: {
+    activeTab: {
+      type: String,
+      default: '0'
+    },
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -56,8 +66,8 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    selectTabContent(val) {
-      this.$emit("selectTabContent", val);
+    selectTabContent(url) {
+      this.$router.push({ name: url ,})
     }
   },
   created() {}

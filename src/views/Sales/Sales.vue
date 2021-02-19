@@ -7,11 +7,11 @@
         </el-header>
         <el-container>
           <el-aside width="200px">
-            <Aside :activeTab="'0'" />
+            <Aside :activeTab="'2'" />
           </el-aside>
           <el-container>
             <el-main>
-              <Main/>
+              <Main />
             </el-main>
           </el-container>
         </el-container>
@@ -24,10 +24,10 @@
 // @ is an alias to /src
 import Header from "@/components/common/Header.vue";
 import Aside from "@/components/common/Aside.vue";
-import Main from '@/components/home/Main.vue'
+import Main from '@/components/sales/Main.vue'
 
 export default {
-  name: "Home",
+  name: "Sales",
   components: {
     Header,
     Aside,
