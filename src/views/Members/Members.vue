@@ -1,6 +1,6 @@
 <template>
-  <div class="home admin-theme-main">
-    <div class="home-wrapper">
+  <div class="members">
+    <div class="members-wrapper">
       <el-container>
         <el-header>
           <Header />
@@ -11,7 +11,20 @@
           </el-aside>
           <el-container>
             <el-main>
-              <Main />
+              <div class="table-options">
+                <div class="left">
+                  <el-row>
+                    <el-button type="success">New</el-button>
+                    <el-button type="warning">Archives</el-button>
+                    <el-button type="primary">Print</el-button>
+                  </el-row>
+                </div>
+                <div class="right">
+                  <el-tag type="success">Active User(s): 1</el-tag>
+                  <el-tag>Number of User(s): 1</el-tag>
+                </div>
+              </div>
+              <Table />
             </el-main>
           </el-container>
         </el-container>
@@ -24,14 +37,14 @@
 // @ is an alias to /src
 import Header from "@/components/common/Header.vue";
 import Aside from "@/components/common/Aside.vue";
-import Main from '@/components/members/Main.vue'
+import Table from '@/components/members/Table.vue'
 
 export default {
   name: "Members",
   components: {
     Header,
     Aside,
-    Main
+    Table
   },
   data() {
     return {};
@@ -40,8 +53,29 @@ export default {
 };
 </script>
 <style lang="less">
-.home {
-  .home-wrapper {
+.members {
+
+  .table-options {
+    height: 60px;
+    padding: 0px 10px;
+    line-height: 60px;
+    text-align: left;
+    border-bottom: 1px solid #E4E7ED;
+    display: flex;
+    button {
+      height: 30px;
+      padding: 0px 15px;
+    }
+  }
+
+  .table-options>div {
+    flex: 1;
+
+    .el-tag {
+      margin-right: 10px;
+    }
+  }
+  .members-wrapper {
     height: 100vh;
     min-width: 1200px;
     .el-container {
