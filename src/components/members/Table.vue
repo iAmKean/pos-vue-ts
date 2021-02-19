@@ -1,32 +1,46 @@
 <template>
-  <el-table
-    :data="tableData"
-    height="520"
-    :row-class-name="tableRowClassName"
-    style="width: 100%">
-    <el-table-column
-      v-for="(propItem, propKey) in tableProps"
-      :key="propKey"
-      :prop="propItem.propName"
-      :label="propItem.propLabel"
-      :width="propItem.width"/>
-    <el-table-column
-      fixed="right"
-      label="Operations"
-      width="180">
-      <template slot="header" slot-scope="scope">
-        <el-input
-          v-model="search"
-          size="mini"
-          placeholder="Type to search"/>
-      </template>
-      <template slot-scope="scope" v-if="tableData[scope.$index].Role != '1'">
-        <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
-        <el-button type="text" size="small">Edit</el-button>
-        <el-button type="text" size="small">Remove</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div>
+    <el-table
+      :data="tableData"
+      height="520"
+      :row-class-name="tableRowClassName"
+      style="width: 100%">
+      <el-table-column
+        v-for="(propItem, propKey) in tableProps"
+        :key="propKey"
+        :prop="propItem.propName"
+        :label="propItem.propLabel"
+        :width="propItem.width"/>
+      <el-table-column
+        fixed="right"
+        label="Operations"
+        width="180">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            placeholder="Type to search"/>
+        </template>
+        <template slot-scope="scope" v-if="tableData[scope.$index].Role != 'Owner'">
+          <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
+          <el-button type="text" size="small">Edit</el-button>
+          <el-button type="text" size="small" @click="showRemoveMods(tableData[scope.$index])">Remove</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-dialog
+      title="Remove Account"
+      :visible.sync="centerDialogVisible"
+      width="25%"
+      center>
+      <span>Removing an account will go to the archive.</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="removeAccount()">Confirm</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -38,9 +52,45 @@ export default {
       search: '',
       tableProps: tableProps,
       tableData: [],
+      centerDialogVisible: false,
+      userItem: {},
     }
   },
   methods: {
+    showRemoveMods(item) {
+      this.centerDialogVisible = true;
+      this.userItem = item;
+    },
+    removeAccount() {
+      let params = {
+        request: 9,
+        data: {
+          AccountID: this.userItem.AccountID,
+        }
+      };
+
+      this.http
+        .post(this.api.UserService, params)
+        .then(response => {
+          if (response.data.State == 1) {
+            this.centerDialogVisible = false;
+            this.userItem = {};
+            this.getUsers();
+            this.$message({
+              message: response.data.Message,
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: response.data.Message,
+              type: 'error'
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     handleClick(item) {
       console.log(item);
     },

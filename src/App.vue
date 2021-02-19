@@ -5,6 +5,12 @@
 </template>
 
 <style lang="less">
+
+.el-header {
+-webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

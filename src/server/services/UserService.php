@@ -45,6 +45,11 @@ if ($params) {
       // count user
         $data = new UserData($conn);
         echo json_encode($data->countUser($params['data']));
+        break;
+    case 9:
+      // remove user
+        $data = new UserData($conn);
+        echo json_encode($data->removeUser($params['data']));
         break; 
     default:
       echo "Invalid Request";

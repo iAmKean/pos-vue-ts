@@ -168,6 +168,27 @@ class UserData {
     return $this->response;
   }
 
+  function removeUser($params) {
+    $AccountID = $params['AccountID'];
+
+    $query = "Update `tbl_accounts` SET
+              `tbl_accounts`.`isDelete`=2 
+              where `tbl_accounts`.`AccountID`=$AccountID";
+
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+  
+  }
+
   function updateUser($params) {
     $ID = $params['ID'];
     $AccountID = $params['AccountID'];
