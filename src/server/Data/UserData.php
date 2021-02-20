@@ -168,7 +168,7 @@ class UserData {
   }
 
   function getRole($params) {
-    $query = "Select * from `tbl_admin_role`";
+    $query = "Select * from `tbl_role`";
 
     $result = $this->link->query($query);
 

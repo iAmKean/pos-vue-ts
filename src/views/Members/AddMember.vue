@@ -53,6 +53,26 @@
                             <el-radio :label="2" border>Inactive</el-radio>
                           </el-radio-group>
                       </div>
+
+                      <div class="dropdown-c">
+                        <label class="label-c">Account Role:</label>
+                        <el-dropdown trigger="click" @command="selectRole">
+                          <el-button type="primary">
+                            {{ currRole }}
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                          </el-button>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item
+                              v-for="(typeItem, typeKey) in roleList"
+                              :key="typeKey"
+                              :command="typeItem"
+                            >
+                              {{ typeItem.Role }}
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
+                        </el-dropdown>
+                      </div>
+              
                     </div>
                   </div>
                   <div class="acc-form">
@@ -218,10 +238,33 @@ export default {
           Address: [
             { validator: validateAddress, trigger: 'blur' }
           ],
-        }
+        },
+        currRole: '',
+        roleList: [],
     };
   },
   methods: {
+    selectRole(val) {
+      this.currRole = val.Role; 
+      this.ruleForm.Role = val.ID; 
+    },
+    getRole() {
+      let params = {
+        request: 3,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.UserService, params)
+        .then(response => {
+          this.roleList = response.data;
+          this.currRole = this.roleList[0].Role; 
+          this.ruleForm.Role = this.roleList[0].ID; 
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getLatestUserAccountID() {
       let params = {
         request: 10,
@@ -261,6 +304,7 @@ export default {
   },
   created() {
     this.getLatestUserAccountID();
+    this.getRole();
   }
 };
 </script>
@@ -313,7 +357,10 @@ export default {
     font-size: 14px;
     color: #606266;
     margin-right: 20px;
+    min-width: 100px;
+    display: inline-block;
   }
+
   .main-content-wrapper {
     padding: 10px;
 
@@ -332,12 +379,21 @@ export default {
     }
 
     .icon>div {
-    justify-content: flex-start;
-    display: flex;
+      justify-content: flex-start;
+      display: flex;
     }
 
     .icon .account-status {
       flex: 3;
+      text-align: left;
+    }
+
+    .icon .radio {
+      margin-bottom: 22px;
+    }
+
+    .icon .account-status {
+      display: block;
     }
 
 
