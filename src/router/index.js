@@ -29,6 +29,11 @@ const routes = [
     name: 'Members',
     component: () => import('../views/Members/Members.vue')
   },
+  {
+    path: '/members/add-member',
+    name: 'AddMember',
+    component: () => import('../views/Members/AddMember.vue')
+  },
 ]
 
 const router = new VueRouter({

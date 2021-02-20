@@ -14,8 +14,8 @@
               <div class="table-options">
                 <div class="left">
                   <el-row>
-                    <el-button type="success">New</el-button>
-                    <el-button type="warning">Archives</el-button>
+                    <el-button type="success" @click="goPage('AddMember')">New</el-button>
+                    <el-button type="warning" @click="goPage('ArchiveMembers')">Archives</el-button>
                     <el-button type="primary">Print</el-button>
                   </el-row>
                 </div>
@@ -86,7 +86,10 @@ export default {
     updateData() {
       this.countUserActive();
       this.countUser();
-    }
+    },
+    goPage(url) {
+      this.$router.push({ name: url });
+    },
   },
   created() {
     this.countUserActive();
@@ -94,7 +97,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .members {
 
   .table-options {

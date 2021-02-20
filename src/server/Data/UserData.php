@@ -153,6 +153,20 @@ class UserData {
     return $this->response[0];
   }
 
+  function latestUser($params) {
+    $query = "SELECT * FROM `tbl_accounts` ORDER BY AccountID DESC LIMIT 0, 1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["maxAccountID"] = $row[1];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response[0];
+  }
+
   function getRole($params) {
     $query = "Select * from `tbl_admin_role`";
 

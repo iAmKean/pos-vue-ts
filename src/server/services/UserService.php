@@ -50,6 +50,11 @@ if ($params) {
       // remove user
         $data = new UserData($conn);
         echo json_encode($data->removeUser($params['data']));
+        break;
+    case 10:
+      // select latest user
+        $data = new UserData($conn);
+        echo json_encode($data->latestUser($params['data']));
         break; 
     default:
       echo "Invalid Request";
