@@ -34,7 +34,7 @@
                       ref="ruleForm"
                       label-position="left"
                       label-width="150px" class="demo-ruleForm">
-                      <el-form-item label="Brand Category:">
+                      <el-form-item label="Brand Category:" class="brand-cat">
                         <el-dropdown trigger="click" @command="selectBrand">
                           <el-button type="primary">
                             {{ currBrand }}
@@ -54,7 +54,7 @@
                       <el-form-item label="Model Name:" prop="ModelName">
                         <el-input type="text" v-model="ruleForm.ModelName" autocomplete="off"></el-input>
                       </el-form-item>
-                      <el-form-item label="Model Part:">
+                      <el-form-item label="Model Part:" class="brand-cat">
                         <el-dropdown trigger="click" @command="selectPart">
                           <el-button type="primary">
                             {{ currPart }}
@@ -83,7 +83,7 @@
 
                       <div class="button-con">
                           <el-button type="success" @click="save()">Save</el-button>
-                          <el-button type="warning" @click="clear()">Clear All</el-button>
+                          <el-button type="warning" @click="resetForm()">Clear All</el-button>
                       </div>
                     </el-form>
                   </div>
@@ -248,8 +248,10 @@ export default {
 <style lang="less" scoped>
 .members {
 
-.el-dropdown {
-  text-align: left;
+.brand-cat {
+  ::v-deep.el-form-item__content {
+    text-align: left;
+  }
 }
   .table-options {
     height: 60px;

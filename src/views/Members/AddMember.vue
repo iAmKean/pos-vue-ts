@@ -117,7 +117,7 @@
 
                       <div class="button-con">
                           <el-button type="success" @click="save()">Save</el-button>
-                          <el-button type="warning" @click="clear()">Clear All</el-button>
+                          <el-button type="warning" @click="resetForm()">Clear All</el-button>
                       </div>
                     </el-form>
                   </div>
@@ -301,6 +301,8 @@ export default {
       this.ruleForm.Status = 1;
       this.ruleForm.ExtName = '';
       this.ruleForm.Icon = '';
+      this.getLatestUserAccountID();
+      this.getRole();
     },
     selectRole(val) {
       this.currRole = val.Role; 
