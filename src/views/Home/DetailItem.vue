@@ -131,13 +131,13 @@ export default {
       };
     return {
         ruleForm: {
-          BrandCategory: '',
-          ModelName: '',
-          ModelPartCategory: '',
-          Description: '',
-          Price: '',
-          Stocks: '',
-          AddedBy: '',
+          BrandCategory: null,
+          ModelName: null,
+          ModelPartCategory: null,
+          Description: null,
+          Price: null,
+          Stocks: null,
+          AddedBy: null,
         },
         rules: {
           ModelName: [
@@ -199,11 +199,31 @@ export default {
           console.log(error);
         });
     },
+    getModels() {
+      let params = {
+        request: 9,
+        data: {
+          ID: this.$route.params.id
+        }
+      };
+
+      this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.ruleForm = response.data[0];
+          this.currPart = this.ruleForm.ModelPartCategory;
+          this.currBrand = this.ruleForm.BrandCategory;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   },
   created() {
     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    this.getBrands();
-    this.getModelParts();
+    // this.getBrands();
+    // this.getModelParts();
+    this.getModels();
     this.ruleForm.AddedBy = userInfo.AccountID
   }
 };

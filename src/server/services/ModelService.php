@@ -46,6 +46,11 @@ if ($params) {
         $data = new ModelData($conn);
         echo json_encode($data->countOutTotalModel($params['data']));
         break;
+    case 9:
+      // get model by id
+        $data = new ModelData($conn);
+        echo json_encode($data->getModelByID($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }
