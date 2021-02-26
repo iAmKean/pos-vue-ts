@@ -13,15 +13,14 @@
             <el-main>
               <div class="table-options">
                 <div class="left">
-                  <el-row>
-                    <el-button type="success" @click="goPage('AddMember')">New</el-button>
-                    <el-button type="warning" @click="goPage('MembersArchive')">Archives</el-button>
-                    <el-button type="primary">Print</el-button>
-                  </el-row>
+                    <el-breadcrumb separator="/">
+                      <el-breadcrumb-item :to="{ name: 'Members' }">Members</el-breadcrumb-item>
+                      <el-breadcrumb-item>Archives</el-breadcrumb-item>
+                    </el-breadcrumb>
                 </div>
                 <div class="right">
-                  <el-tag type="success">Active User(s): {{ activeUserCount }}</el-tag>
-                  <el-tag>Number of User(s): {{ userCount }}</el-tag>
+                  <!-- <el-tag type="success">Active User(s): {{ activeUserCount }}</el-tag>
+                  <el-tag>Number of User(s): {{ userCount }}</el-tag> -->
                 </div>
               </div>
               <Table @updateData="updateData()"/>
@@ -37,10 +36,10 @@
 // @ is an alias to /src
 import Header from "@/components/common/Header.vue";
 import Aside from "@/components/common/Aside.vue";
-import Table from '@/components/members/Table.vue'
+import Table from '@/components/members/TableArchive.vue'
 
 export default {
-  name: "Members",
+  name: "MembersArchive",
   components: {
     Header,
     Aside,
@@ -99,6 +98,31 @@ export default {
 </script>
 <style lang="less" scoped>
 .members {
+
+  .table-options {
+    height: 60px;
+    padding: 0px 10px;
+    line-height: 60px;
+    text-align: left;
+    border-bottom: 1px solid #E4E7ED;
+    display: flex;
+    .el-breadcrumb {
+    line-height: 60px;
+
+    }
+    button {
+      height: 30px;
+      padding: 0px 15px;
+    }
+  }
+
+  .table-options>div {
+    flex: 1;
+
+    .el-tag {
+      margin-right: 10px;
+    }
+  }
 
   .table-options {
     height: 60px;

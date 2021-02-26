@@ -60,6 +60,11 @@ if ($params) {
       // select user by accountid
         $data = new UserData($conn);
         echo json_encode($data->selectUserByAccountID($params['data']));
+        break;
+    case 12:
+      // select user by deleteid
+        $data = new UserData($conn);
+        echo json_encode($data->getUsersByDelete($params['data']));
         break; 
     default:
       echo "Invalid Request";

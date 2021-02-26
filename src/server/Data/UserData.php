@@ -61,6 +61,58 @@ class UserData {
     return $this->response;
   }
 
+  function getUsersByDelete($params) {
+    $query = "Select
+              `tbl_accounts`.`ID`,
+              `tbl_accounts`.`AccountID`,
+              `tbl_accounts`.`AccountName`,
+              `tbl_accounts`.`AccountPassword`,
+              `tbl_accounts`.`LastName`,
+              `tbl_accounts`.`FirstName`,
+              `tbl_accounts`.`MiddleName`,
+              `tbl_accounts`.`ExtName`,
+              `tbl_accounts`.`Icon`,
+              `tbl_accounts`.`Address`,
+              `tbl_status`.`Status`,
+              `tbl_role`.`Role`,
+              `tbl_accounts`.`isDelete`,
+              `tbl_accounts`.`CreateTime`,
+              `tbl_accounts`.`UpdateTime`,
+              ( Select `tbl_accounts`.`AccountName` from `tbl_accounts` where `tbl_accounts`.`AccountID`=`tbl_accounts`.`AddedBy`) AS AddedBy,
+              `tbl_accounts`.`Phone`
+              From ((`tbl_accounts`
+              Inner Join `tbl_status` ON `tbl_accounts`.`Status`=`tbl_status`.`ID`)
+              Inner Join `tbl_role` ON `tbl_accounts`.`Role`=`tbl_role`.`ID`)
+              where `tbl_accounts`.`isDelete`=2
+              ORDER BY `tbl_accounts`.`ID` ASC";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["AccountID"] = $row[1];
+        $this->tempData["AccountName"] = $row[2];
+        $this->tempData["AccountPassword"] = $row[3];
+        $this->tempData["LastName"] = $row[4];
+        $this->tempData["FirstName"] = $row[5];
+        $this->tempData["MiddleName"] = $row[6];
+        $this->tempData["ExtName"] = $row[7];
+        $this->tempData["Icon"] = $row[8];
+        $this->tempData["Address"] = $row[9];
+        $this->tempData["Status"] = $row[10];
+        $this->tempData["Role"] = $row[11];
+        $this->tempData["isDelete"] = $row[12];
+        $this->tempData["CreateTime"] = $row[13];
+        $this->tempData["UpdateTime"] = $row[14];
+        $this->tempData["AddedBy"] = $row[15];
+        $this->tempData["Phone"] = $row[16];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
   function selectUserByAccountID($params) {
     $AccountID = $params['AccountID'];
 
