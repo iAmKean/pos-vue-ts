@@ -14,7 +14,7 @@
               <div class="table-options">
                 <div class="left">
                     <el-breadcrumb separator="/">
-                      <el-breadcrumb-item :to="{ name: 'Members' }">Items</el-breadcrumb-item>
+                      <el-breadcrumb-item :to="{ name: 'Home' }">Items</el-breadcrumb-item>
                       <el-breadcrumb-item>Add Item</el-breadcrumb-item>
                     </el-breadcrumb>
                 </div>
@@ -33,36 +33,52 @@
                       size="medium"
                       ref="ruleForm"
                       label-position="left"
-                      label-width="200px" class="demo-ruleForm">
-                      <el-form-item label="Account ID:" prop="AccountID">
-                        <el-input type="text" v-model="ruleForm.AccountID" autocomplete="off" readonly></el-input>
+                      label-width="150px" class="demo-ruleForm">
+                      <el-form-item label="Brand Category:">
+                        <el-dropdown trigger="click" @command="selectBrand">
+                          <el-button type="primary">
+                            {{ currBrand }}
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                          </el-button>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item
+                              v-for="(brandItem, brandKey) in brandList"
+                              :key="brandKey"
+                              :command="brandItem"
+                            >
+                              {{ brandItem.Brand }}
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
+                        </el-dropdown>
                       </el-form-item>
-                      <el-form-item label="Account Name:" prop="AccountName">
-                        <el-input type="text" v-model="ruleForm.AccountName" autocomplete="off"></el-input>
+                      <el-form-item label="Model Name:" prop="ModelName">
+                        <el-input type="text" v-model="ruleForm.ModelName" autocomplete="off"></el-input>
                       </el-form-item>
-                      <el-form-item label="Account Password:" class="pass-con" prop="AccountPassword">
-                        <el-input type="password" v-model="ruleForm.AccountPassword" autocomplete="off"></el-input>
+                      <el-form-item label="Model Part:">
+                        <el-dropdown trigger="click" @command="selectPart">
+                          <el-button type="primary">
+                            {{ currPart }}
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                          </el-button>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item
+                              v-for="(partItem, partKey) in partList"
+                              :key="partKey"
+                              :command="partItem"
+                            >
+                              {{ partItem.ModelPart }}
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
+                        </el-dropdown>
                       </el-form-item>
-                      <el-form-item label="Confirm Account Password:" class="pass-con" prop="AccountConfirmPassword">
-                        <el-input type="password" v-model="ruleForm.AccountConfirmPassword" autocomplete="off"></el-input>
+                      <el-form-item label="Description:" >
+                        <el-input type="textarea" rows="5" v-model="ruleForm.Description"></el-input>
                       </el-form-item>
-                      <el-form-item label="Last Name:" prop="LastName">
-                        <el-input type="text" v-model="ruleForm.LastName" autocomplete="off"></el-input>
+                      <el-form-item label="Price:" prop="Price">
+                        <el-input type="text" v-model="ruleForm.Price" autocomplete="off"></el-input>
                       </el-form-item>
-                      <el-form-item label="First Name:" prop="FirstName">
-                        <el-input type="text" v-model="ruleForm.FirstName" autocomplete="off"></el-input>
-                      </el-form-item>
-                      <el-form-item label="Middle Name:" prop="MiddleName">
-                        <el-input type="text" v-model="ruleForm.MiddleName" autocomplete="off"></el-input>
-                      </el-form-item>
-                      <el-form-item label="Extension Name:">
-                        <el-input type="text" v-model="ruleForm.ExtName" autocomplete="off"></el-input>
-                      </el-form-item>
-                      <el-form-item label="Phone Number:" prop="Phone">
-                        <el-input type="text" v-model="ruleForm.Phone" autocomplete="off"></el-input>
-                      </el-form-item>
-                      <el-form-item label="Address:" prop="Address">
-                        <el-input type="textarea" rows="5" v-model="ruleForm.Address"></el-input>
+                      <el-form-item label="Stocks:" prop="Stocks">
+                        <el-input type="text" v-model="ruleForm.Stocks" autocomplete="off"></el-input>
                       </el-form-item>
 
                       <div class="button-con">
@@ -93,153 +109,79 @@ export default {
     Aside,
   },
   data() {
-      var validateAccountID = (rule, value, callback) => {
+      var validateModelName = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please input the account id'));
+          callback(new Error('Please input the model name'));
         } else {
           callback();
         }
       };
-      var validateAccountName = (rule, value, callback) => {
+      var validatePrice = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please input the account name'));
+          callback(new Error('Please input the price'));
         } else {
           callback();
         }
       };
-      var validateAccountPassword = (rule, value, callback) => {
+      var validateStock = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please input the password again'));
-        }else {
-          callback();
-        }
-      };
-      var validateAccountConfirmPassword = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the confirm password again'));
-        }else {
-          callback();
-        }
-      };
-      var validateLastName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the last name again'));
-        }else {
-          callback();
-        }
-      };
-      var validateFirstName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the first name again'));
-        }else {
-          callback();
-        }
-      };
-      var validateMiddleName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the middle name again'));
-        }else {
-          callback();
-        }
-      };
-      var validateAddress = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the address again'));
-        }else {
-          callback();
-        }
-      };
-      var validatePhone = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the phone number again'));
-        }else {
+          callback(new Error('Please input the stock'));
+        } else {
           callback();
         }
       };
     return {
         ruleForm: {
-          AccountID: '',
-          AccountName: '',
-          AccountPassword: '',
-          AccountConfirmPassword: '',
-          LastName: '',
-          FirstName: '',
-          MiddleName: '',
-          ExtName: '',
-          Phone: '',
-          Address: '',
-          Icon: '',
-          Status: 1,
-          Role: 1,
+          BrandCategory: '',
+          ModelName: '',
+          ModelPartCategory: '',
+          Description: '',
+          Price: '',
+          Stocks: '',
           AddedBy: '',
         },
         rules: {
-          AccountID: [
-            { validator: validateAccountID, trigger: 'blur' }
+          ModelName: [
+            { validator: validateModelName, trigger: 'blur' }
           ],
-          AccountName: [
-            { validator: validateAccountName, trigger: 'blur' }
+          Price: [
+            { validator: validatePrice, trigger: 'blur' }
           ],
-          AccountPassword: [
-            { validator: validateAccountPassword, trigger: 'blur' }
-          ],
-          AccountConfirmPassword: [
-            { validator: validateAccountConfirmPassword, trigger: 'blur' }
-          ],
-          LastName: [
-            { validator: validateLastName, trigger: 'blur' }
-          ],
-          FirstName: [
-            { validator: validateFirstName, trigger: 'blur' }
-          ],
-          MiddleName: [
-            { validator: validateMiddleName, trigger: 'blur' }
-          ],
-          Address: [
-            { validator: validateAddress, trigger: 'blur' }
-          ],
-          Phone: [
-            { validator: validatePhone, trigger: 'blur' }
+          Stocks: [
+            { validator: validateStock, trigger: 'blur' }
           ],
         },
-        currRole: '',
-        roleList: [],
+        currBrand: '',
+        currPart: '',
+        brandList: [],
+        partList: [],
     };
   },
   methods: {
     save() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          if (this.ruleForm.AccountPassword != this.ruleForm.AccountConfirmPassword) {
-            this.$message({
-              message: 'Password not match',
-              type: 'warning'
-            });
-          } else {
-            let params = {
-              request: 2,
-              data: this.ruleForm
-            };
+          let params = {
+            request: 3,
+            data: this.ruleForm
+          };
 
-            this.http
-              .post(this.api.UserService, params)
-              .then(response => {
-                if (response.data.State == 1) {
-                  this.$message({
-                    message: response.data.Message,
-                    type: 'success'
-                  });
-                  this.resetForm();
-                  this.getLatestUserAccountID();
-                  this.getRole();
-                } else {
-                  this.$message.error('Error');
-                }
-              })
-              .catch(error => {
-                console.log(error);
-              });
-          }
+          this.http
+            .post(this.api.ModelService, params)
+            .then(response => {
+              if (response.data.State == 1) {
+                this.$message({
+                  message: response.data.Message,
+                  type: 'success'
+                });
+                this.resetForm();
+              } else {
+                this.$message.error('Error');
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
 
         } else {
           return false;
@@ -248,72 +190,57 @@ export default {
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
-      this.ruleForm.Status = 1;
-      this.ruleForm.ExtName = '';
-      this.ruleForm.Icon = '';
+      this.ruleForm.Description = '';
+      this.getBrands();
+      this.getModelParts();
     },
-    selectRole(val) {
-      this.currRole = val.Role; 
-      this.ruleForm.Role = val.ID; 
+    selectBrand(val) {
+      this.currBrand = val.Brand; 
+      this.ruleForm.BrandCategory = val.ID; 
     },
-    getRole() {
+    getBrands() {
       let params = {
-        request: 3,
+        request: 1,
         data: {}
       };
 
       this.http
-        .post(this.api.UserService, params)
+        .post(this.api.BrandServices, params)
         .then(response => {
-          this.roleList = response.data;
-          this.currRole = this.roleList[2].Role; 
-          this.ruleForm.Role = this.roleList[2].ID; 
+          this.brandList = response.data;
+          this.currBrand = this.brandList[0].Brand;
+          this.ruleForm.BrandCategory = this.brandList[0].ID; 
         })
         .catch(error => {
           console.log(error);
         });
     },
-    getLatestUserAccountID() {
+    selectPart(val) {
+      this.currPart = val.ModelPart; 
+      this.ruleForm.ModelPartCategory = val.ID; 
+    },
+    getModelParts() {
       let params = {
-        request: 10,
+        request: 6,
         data: {}
       };
 
       this.http
-        .post(this.api.UserService, params)
+        .post(this.api.BrandServices, params)
         .then(response => {
-          this.ruleForm.AccountID = Number(response.data.maxAccountID) + 1;
+          this.partList = response.data;
+          this.currPart = this.partList[0].ModelPart;
+          this.ruleForm.ModelPartCategory = this.partList[0].ID; 
         })
         .catch(error => {
           console.log(error);
         });
-    },
-    handleAvatarSuccess(file) {
-      this.getBase64(file.raw).then(res => {
-        this.ruleForm.Icon = res;
-      });
-    },
-    getBase64(file) {
-      return new Promise(function(resolve, reject) {
-        let reader = new FileReader();
-        let imgResult = "";
-        reader.readAsDataURL(file);
-        reader.onload = function() {
-          imgResult = reader.result;
-        };
-        reader.onerror = function(error) {
-          reject(error);
-        };
-        reader.onloadend = function() {
-          resolve(imgResult);
-        };
-      });
     },
   },
   created() {
     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    this.getLatestUserAccountID();
-    this.getRole();
+    this.getBrands();
+    this.getModelParts();
     this.ruleForm.AddedBy = userInfo.AccountID
   }
 };
@@ -321,6 +248,9 @@ export default {
 <style lang="less" scoped>
 .members {
 
+.el-dropdown {
+  text-align: left;
+}
   .table-options {
     height: 60px;
     padding: 0px 10px;

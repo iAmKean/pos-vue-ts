@@ -57,9 +57,9 @@ export default {
       let stockNum = this.tableData[rowIndex].Stocks;
 
       if (rowIndex % 2 == 0) {
-        return stockNum < Number(20) ? 'low-stock warning-row' : 'warning-row';
+        return stockNum < Number(20) ? 'low-stock warning-row' : 'high-stock warning-row';
       }
-      return stockNum < Number(20) ? 'low-stock' : '';
+      return stockNum < Number(20) ? 'low-stock' : 'high-stock';
     },
     getModels() {
       let params = {
@@ -107,5 +107,9 @@ export default {
 
   .el-table .low-stock td:nth-child(7){
     color: red;
+  }
+
+  .el-table .high-stock td:nth-child(7){
+    color: green;
   }
 </style>

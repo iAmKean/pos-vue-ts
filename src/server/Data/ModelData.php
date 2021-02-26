@@ -49,14 +49,16 @@ class ModelData {
   
 
   function setModel($params) {
+
     $BrandCategory = $params['BrandCategory'];
     $ModelName = $params['ModelName'];
     $ModelPartCategory = $params['ModelPartCategory'];
     $Description = $params['Description'];
     $Price = $params['Price'];
     $Stocks = $params['Stocks'];
-    // $DateAdded = $params['DateAdded'];
     $AddedBy = $params['AddedBy'];
+    $AvailableItems = $params['Stocks'];
+    $SoldItems = "0";
 
     $query = "Insert into `tbl_model`
               (
@@ -66,17 +68,21 @@ class ModelData {
                 `Description`,
                 `Price`,
                 `Stocks`,
-                `AddedBy`
+                `AddedBy`,
+                `AvailableItems`,
+                `SoldItems`
               ) 
               values 
               (
-                `$BrandCategory`,
-                `$ModelName`,
-                `$ModelPartCategory`,
-                `$Description`,
-                `$Price`,
-                `$Stocks`,
-                `$AddedBy`
+                '$BrandCategory',
+                '$ModelName',
+                '$ModelPartCategory',
+                '$Description',
+                '$Price',
+                '$Stocks',
+                '$AddedBy',
+                '$AvailableItems',
+                '$SoldItems'
               )";
     
     if ($this->link->query($query) === TRUE) {
