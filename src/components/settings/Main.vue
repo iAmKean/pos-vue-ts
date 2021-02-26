@@ -4,22 +4,27 @@
       <el-tab-pane
         v-for="(tabItem, tabKey) in tabList"
         :key="tabKey"
-        :label="tabItem"
-        :name="tabItem">
-        tabItem
+        :label="tabItem.name"
+        :name="tabItem.name">
+        <component :is="tabItem.tableName"></component>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
+
 export default {
-  components: {},
+  components: {
+    BrandTable: resolve => {
+      require(["@/components/settings/BrandTable.vue"], resolve);
+    },
+  },
   data() {
     return {
       activeName: 'Brands',
       tabList: [
-        'Brands'
+        { name: 'Brands', tableName: 'BrandTable' }
       ],
     };
   },
