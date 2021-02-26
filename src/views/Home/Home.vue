@@ -14,15 +14,15 @@
               <div class="table-options">
                 <div class="left">
                   <el-row>
-                    <el-button type="success" @click="goPage('AddMember')">New</el-button>
+                    <el-button type="success" @click="$router.push({ name: 'AddItem' })">New</el-button>
                     <el-button type="warning" @click="goPage('MembersArchive')">Logs</el-button>
                     <!-- <el-button type="primary">Print</el-button> -->
                   </el-row>
                 </div>
                 <div class="right">
-                  <el-tag type="success">No. of Item(s): {{ numberItems }}<i class="el-icon-question"></i></el-tag>
-                  <el-tag type="warning">Low in Stock(s): {{ numberLowStock }}<i class="el-icon-question"></i></el-tag>
-                  <el-tag type="danger">Out of Stock(s): {{ numberOutofStock }}<i class="el-icon-question"></i></el-tag>
+                  <el-tag type="success">No. of Item(s): {{ numberItems }}</el-tag>
+                  <el-tag type="warning">Low in Stock(s): {{ numberLowStock }} <i class="el-icon-question"></i></el-tag>
+                  <el-tag type="danger">Out of Stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag>
                 </div>
               </div>
               <Table @updateData="updateData()"/>

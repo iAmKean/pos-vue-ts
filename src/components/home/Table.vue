@@ -11,7 +11,7 @@
         :key="propKey"
         :prop="propItem.propName"
         :label="propItem.propLabel"
-        :align="propKey == 2 ? 'left' : 'center'"
+        :align="propKey != 0 ? 'left' : 'center'"
         :width="propItem.width"/>
       <el-table-column
       :disable-transitions="true"
@@ -57,7 +57,7 @@ export default {
       let stockNum = this.tableData[rowIndex].Stocks;
 
       if (rowIndex % 2 == 0) {
-        return 'warning-row';
+        return stockNum < Number(20) ? 'low-stock warning-row' : 'warning-row';
       }
       return stockNum < Number(20) ? 'low-stock' : '';
     },
@@ -105,24 +105,7 @@ export default {
     background: #f0f9eb;
   }
 
-  // .el-table .low-stock {
-  //   background: #F56C6C !important;
-  //   color: #fff;
-  //   color: #fff !important;
-
-
-  //   .el-button--small {
-  //   color: #fff !important;
-  //   }
-
-  // }
-
-  // .el-table .low-stock:hover {
-  //   background: #F56C6C !important;
-  //   color: #606266 !important;
-
-  //   .el-button--small {
-  //   color: #606266 !important;
-  //   }
-  // }
+  .el-table .low-stock td:nth-child(7){
+    color: red;
+  }
 </style>
