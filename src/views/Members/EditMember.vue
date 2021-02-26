@@ -93,9 +93,6 @@
                       <el-form-item label="Account Password:" class="pass-con" prop="AccountPassword">
                         <el-input type="password" v-model="ruleForm.AccountPassword" autocomplete="off"></el-input>
                       </el-form-item>
-                      <el-form-item label="Confirm Account Password:" class="pass-con" prop="AccountConfirmPassword">
-                        <el-input type="password" v-model="ruleForm.AccountConfirmPassword" autocomplete="off"></el-input>
-                      </el-form-item>
                       <el-form-item label="Last Name:" prop="LastName">
                         <el-input type="text" v-model="ruleForm.LastName" autocomplete="off"></el-input>
                       </el-form-item>
@@ -161,13 +158,6 @@ export default {
           callback();
         }
       };
-      var validateAccountConfirmPassword = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the confirm password again'));
-        }else {
-          callback();
-        }
-      };
       var validateLastName = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('Please input the last name again'));
@@ -201,7 +191,6 @@ export default {
           AccountID: '',
           AccountName: '',
           AccountPassword: '',
-          AccountConfirmPassword: '',
           LastName: '',
           FirstName: '',
           MiddleName: '',
@@ -221,9 +210,6 @@ export default {
           ],
           AccountPassword: [
             { validator: validateAccountPassword, trigger: 'blur' }
-          ],
-          AccountConfirmPassword: [
-            { validator: validateAccountConfirmPassword, trigger: 'blur' }
           ],
           LastName: [
             { validator: validateLastName, trigger: 'blur' }
@@ -246,34 +232,26 @@ export default {
     save() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          if (this.ruleForm.AccountPassword != this.ruleForm.AccountConfirmPassword) {
-            this.$message({
-              message: 'Password not match',
-              type: 'warning'
+          let params = {
+            request: 4,
+            data: this.ruleForm
+          };
+
+          this.http
+            .post(this.api.UserService, params)
+            .then(response => {
+              if (response.data.State == 1) {
+                this.$message({
+                  message: response.data.Message,
+                  type: 'success'
+                });
+              } else {
+                this.$message.error('Error');
+              }
+            })
+            .catch(error => {
+              console.log(error);
             });
-          } else {
-            let params = {
-              request: 2,
-              data: this.ruleForm
-            };
-
-            this.http
-              .post(this.api.UserService, params)
-              .then(response => {
-                if (response.data.State == 1) {
-                  this.$message({
-                    message: response.data.Message,
-                    type: 'success'
-                  });
-                } else {
-                  this.$message.error('Error');
-                }
-              })
-              .catch(error => {
-                console.log(error);
-              });
-          }
-
         } else {
           return false;
         }
@@ -293,12 +271,15 @@ export default {
         .post(this.api.UserService, params)
         .then(response => {
           this.roleList = response.data;
-          // this.currRole = this.roleList[2].Role; 
-          // this.ruleForm.Role = this.roleList[2].ID; 
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    filterRole(role) {
+      return this.roleList.filter(val => {
+        return val.Role == role;
+      });
     },
     handleAvatarSuccess(file) {
       this.getBase64(file.raw).then(res => {
@@ -332,8 +313,20 @@ export default {
       this.http
         .post(this.api.UserService, params)
         .then(response => {
-          console.log(response.data[0]);
-          // this.ruleForm = response.data[0];
+          this.ruleForm.AccountID = response.data[0].AccountID;
+          this.ruleForm.AccountName = response.data[0].AccountName;
+          this.ruleForm.AccountPassword = response.data[0].AccountPassword;
+          this.ruleForm.LastName = response.data[0].LastName;
+          this.ruleForm.FirstName = response.data[0].FirstName;
+          this.ruleForm.MiddleName = response.data[0].MiddleName;
+          this.ruleForm.ExtName = response.data[0].ExtName;
+          this.ruleForm.Address = response.data[0].Address;
+          this.ruleForm.Icon = response.data[0].Icon;
+          this.ruleForm.Status = response.data[0].Status == 'Active' ? 1 : 2;
+          // this.ruleForm.Role = response.data[0].Role;
+          this.ruleForm.AddedBy = response.data[0].AddedBy;
+          this.currRole = this.filterRole(response.data[0].Role)[0].Role; 
+          this.ruleForm.Role = this.filterRole(response.data[0].Role)[0].ID; 
         })
         .catch(error => {
           console.log(error);
@@ -341,7 +334,6 @@ export default {
     }
   },
   created() {
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getRole();
     this.getUser();
   }
