@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     update(item) {
-      // this.$router.push({ name: 'EditMember', params: { accountid: item.AccountID }});
+      this.$router.push({ name: 'EditItem', params: { id: item.ID }});
     },
     handleClick(item) {
       this.$router.push({ name: 'DetailItem', params: { id: item.ID }});
