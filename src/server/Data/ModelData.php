@@ -129,5 +129,47 @@ class ModelData {
     }
   }
 
+  function countTotalModel($params) {
+    $query = "Select count(ID) from `tbl_model`";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["count"] = $row[0];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response[0];
+  }
+
+  function countLowTotalModel($params) {
+    $query = "Select count(ID) from `tbl_model` where `Stocks` < 20 and `Stocks` <> 0";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["count"] = $row[0];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response[0];
+  }
+
+  function countOutTotalModel($params) {
+    $query = "Select count(ID) from `tbl_model` where `Stocks` = 0";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["count"] = $row[0];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response[0];
+  }
+
 }
 ?>

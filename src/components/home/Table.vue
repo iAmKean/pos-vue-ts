@@ -6,6 +6,7 @@
       :row-class-name="tableRowClassName"
       style="width: 100%">
       <el-table-column
+      :disable-transitions="true"
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
         :prop="propItem.propName"
@@ -13,6 +14,7 @@
         :align="propKey == 2 ? 'left' : 'center'"
         :width="propItem.width"/>
       <el-table-column
+      :disable-transitions="true"
         fixed="right"
         label="Operations"
         width="180">
@@ -22,7 +24,7 @@
             size="mini"
             placeholder="Type to search"/>
         </template>
-        <template slot-scope="scope" v-if="tableData[scope.$index].Role != 'Owner'">
+        <template slot-scope="scope">
           <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
           <el-button @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
         </template>
@@ -52,10 +54,12 @@ export default {
       // this.$router.push({ name: 'MemberDetail', params: { accountid: item.AccountID }});
     },
     tableRowClassName({row, rowIndex}) {
+      let stockNum = this.tableData[rowIndex].Stocks;
+
       if (rowIndex % 2 == 0) {
         return 'warning-row';
       }
-      return '';
+      return stockNum < Number(20) ? 'low-stock' : '';
     },
     getModels() {
       let params = {
@@ -92,7 +96,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
   .el-table .warning-row {
     background: #F2F6FC;
   }
@@ -100,4 +104,25 @@ export default {
   .el-table .success-row {
     background: #f0f9eb;
   }
+
+  // .el-table .low-stock {
+  //   background: #F56C6C !important;
+  //   color: #fff;
+  //   color: #fff !important;
+
+
+  //   .el-button--small {
+  //   color: #fff !important;
+  //   }
+
+  // }
+
+  // .el-table .low-stock:hover {
+  //   background: #F56C6C !important;
+  //   color: #606266 !important;
+
+  //   .el-button--small {
+  //   color: #606266 !important;
+  //   }
+  // }
 </style>

@@ -31,6 +31,21 @@ if ($params) {
       $data = new ModelData($conn);
       echo json_encode($data->deleteModelData($params['data']));
       break;
+    case 6:
+      // delete data
+        $data = new ModelData($conn);
+        echo json_encode($data->countTotalModel($params['data']));
+        break;
+    case 7:
+      // delete data
+        $data = new ModelData($conn);
+        echo json_encode($data->countLowTotalModel($params['data']));
+        break;
+    case 8:
+      // delete data
+        $data = new ModelData($conn);
+        echo json_encode($data->countOutTotalModel($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

@@ -20,8 +20,9 @@
                   </el-row>
                 </div>
                 <div class="right">
-                  <!-- <el-tag type="success">Active User(s): {{ activeUserCount }}</el-tag>
-                  <el-tag>Number of User(s): {{ userCount }}</el-tag> -->
+                  <el-tag type="success">No. of Item(s): {{ numberItems }}<i class="el-icon-question"></i></el-tag>
+                  <el-tag type="warning">Low in Stock(s): {{ numberLowStock }}<i class="el-icon-question"></i></el-tag>
+                  <el-tag type="danger">Out of Stock(s): {{ numberOutofStock }}<i class="el-icon-question"></i></el-tag>
                 </div>
               </div>
               <Table @updateData="updateData()"/>
@@ -47,9 +48,64 @@ export default {
     Table
   },
   data() {
-    return {};
+    return {
+      numberItems: '',
+      numberLowStock: '',
+      numberOutofStock: '',
+    };
   },
-  methods: {}
+  methods: {
+    countTotalModel() {
+      let params = {
+        request: 6,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.numberItems = response.data.count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    countLowTotalModel() {
+      let params = {
+        request: 7,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.numberLowStock = response.data.count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    countOutTotalModel() {
+      let params = {
+        request: 8,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.numberOutofStock = response.data.count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  created() {
+    this.countTotalModel();
+    this.countLowTotalModel();
+    this.countOutTotalModel();
+  }
 };
 </script>
 <style lang="less">
@@ -118,6 +174,10 @@ export default {
 
   .el-tabs--border-card > .el-tabs__content {
     padding: 0px 10px 10px;
+  }
+
+  .right .el-tag:not(:first-child) {
+    cursor: pointer;
   }
 }
 </style>
