@@ -31,8 +31,8 @@ export default {
       // activeTab: "0",
       tabItems: [
         {
-          name: "Dashboard",
-          icon: "el-icon-s-data",
+          name: "Items",
+          icon: "el-icon-s-order",
           link: 'Home',
         },
         {
@@ -46,7 +46,7 @@ export default {
           link: 'Sales',
         },
         {
-          name: "Members",
+          name: "Accounts",
           icon: "el-icon-user-solid",
           link: 'Members',
         },
