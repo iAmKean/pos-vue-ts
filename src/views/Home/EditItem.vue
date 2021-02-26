@@ -162,29 +162,29 @@ export default {
     update() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
+          let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+          this.ruleForm.UpdatedBy = userInfo.AccountID
           this.ruleForm.DateUpdated = this.createTime();
           let params = {
-            request: 3,
+            request: 4,
             data: this.ruleForm
           };
 
-          console.log(params);
-          // this.http
-          //   .post(this.api.ModelService, params)
-          //   .then(response => {
-          //     if (response.data.State == 1) {
-          //       this.$message({
-          //         message: response.data.Message,
-          //         type: 'success'
-          //       });
-          //       this.resetForm();
-          //     } else {
-          //       this.$message.error('Error');
-          //     }
-          //   })
-          //   .catch(error => {
-          //     console.log(error);
-          //   });
+          this.http
+            .post(this.api.ModelService, params)
+            .then(response => {
+              if (response.data.State == 1) {
+                this.$message({
+                  message: response.data.Message,
+                  type: 'success'
+                });
+              } else {
+                this.$message.error('Error');
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
 
         } else {
           return false;
@@ -294,11 +294,11 @@ export default {
     },
   },
   created() {
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getBrands();
     this.getModelParts();
+  },
+  mounted() {
     this.getModels();
-    this.ruleForm.UpdatedBy = userInfo.AccountID
   }
 };
 </script>

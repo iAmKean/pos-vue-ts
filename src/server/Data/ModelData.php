@@ -24,7 +24,8 @@ class ModelData {
               `tbl_model`.`UpdatedBy`
               from ((`tbl_model`
               Inner Join `tbl_brand` ON `tbl_model`.`BrandCategory`=`tbl_brand`.`ID`)
-              Inner Join `tbl_model_parts` ON `tbl_model`.`ModelPartCategory`=`tbl_model_parts`.`ID`)";
+              Inner Join `tbl_model_parts` ON `tbl_model`.`ModelPartCategory`=`tbl_model_parts`.`ID`)
+              Order by ID Asc";
 
     $result = $this->link->query($query);
 
@@ -160,7 +161,8 @@ class ModelData {
               `Price`='$Price',
               `Stocks`='$Stocks',
               `DateUpdated`='$DateUpdated',
-              `UpdatedBy`='$UpdatedBy'
+              `UpdatedBy`='$UpdatedBy',
+              `AvailableItems`='$Stocks'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {
