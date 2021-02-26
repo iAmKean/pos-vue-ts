@@ -112,12 +112,10 @@
                         <el-input type="textarea" rows="5" v-model="ruleForm.Address"></el-input>
                       </el-form-item>
 
-                      <el-form-item class="button-con">
-                        <el-button type="success" @click="save()">Save</el-button>
-                      </el-form-item>
-                      <el-form-item class="button-con">
-                        <el-button type="warning" @click="clear()">Clear All</el-button>
-                      </el-form-item>
+                      <div class="button-con">
+                          <el-button type="success" @click="save()">Save</el-button>
+                          <el-button type="warning" @click="clear()">Clear All</el-button>
+                      </div>
                     </el-form>
                   </div>
                 </div>
@@ -212,6 +210,7 @@ export default {
           Icon: '',
           Status: 1,
           Role: 1,
+          AddedBy: '',
         },
         rules: {
           AccountID: [
@@ -244,6 +243,51 @@ export default {
     };
   },
   methods: {
+    save() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          if (this.ruleForm.AccountPassword != this.ruleForm.AccountConfirmPassword) {
+            this.$message({
+              message: 'Password not match',
+              type: 'warning'
+            });
+          } else {
+            let params = {
+              request: 2,
+              data: this.ruleForm
+            };
+
+            this.http
+              .post(this.api.UserService, params)
+              .then(response => {
+                if (response.data.State == 1) {
+                  this.$message({
+                    message: response.data.Message,
+                    type: 'success'
+                  });
+                  this.resetForm();
+                  this.getLatestUserAccountID();
+                  this.getRole();
+                } else {
+                  this.$message.error('Error');
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }
+
+        } else {
+          return false;
+        }
+      });
+    },
+    resetForm() {
+      this.$refs.ruleForm.resetFields();
+      this.ruleForm.Status = 1;
+      this.ruleForm.ExtName = '';
+      this.ruleForm.Icon = '';
+    },
     selectRole(val) {
       this.currRole = val.Role; 
       this.ruleForm.Role = val.ID; 
@@ -258,8 +302,8 @@ export default {
         .post(this.api.UserService, params)
         .then(response => {
           this.roleList = response.data;
-          this.currRole = this.roleList[0].Role; 
-          this.ruleForm.Role = this.roleList[0].ID; 
+          this.currRole = this.roleList[2].Role; 
+          this.ruleForm.Role = this.roleList[2].ID; 
         })
         .catch(error => {
           console.log(error);
@@ -303,8 +347,10 @@ export default {
     },
   },
   created() {
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getLatestUserAccountID();
     this.getRole();
+    this.ruleForm.AddedBy = userInfo.AccountID
   }
 };
 </script>
@@ -362,7 +408,7 @@ export default {
   }
 
   .main-content-wrapper {
-    padding: 10px;
+    padding: 10px 10px 100px;
 
     .icon {
       display: flex;
@@ -400,6 +446,16 @@ export default {
     .acc-form {
       width: 50%;
       padding: 0px 20px;
+    }
+
+    .button-con {
+      display: flex;
+      justify-content: center;
+      padding-left: 200px;
+    }
+
+    .button-con>div {
+      width: 100px;
     }
   }
 }

@@ -60,6 +60,7 @@ class UserData {
   }
 
   function setUser($params) {
+    // $ID = $params['ID'];
     $AccountID = $params['AccountID'];
     $AccountName = $params['AccountName'];
     $AccountPassword = $params['AccountPassword'];
@@ -67,11 +68,13 @@ class UserData {
     $FirstName = $params['FirstName'];
     $MiddleName = $params['MiddleName'];
     $ExtName = $params['ExtName'];
-    $Role = $params['Role'];
-    $AccountStatus = $params['AccountStatus'];
     $Icon = $params['Icon'];
+    $Address = $params['Address'];
+    $Status = $params['Status'];
+    $Role = $params['Role'];
+    $AddedBy = $params['AddedBy'];
 
-    $query = "Select * From `tbl_accounts_admin` Where `tbl_accounts_admin`.`AccountID`='$AccountID'";
+    $query = "Select * From `tbl_accounts` Where `tbl_accounts`.`AccountID`='$AccountID'";
     $result = $this->link->query($query);
     $row = mysqli_fetch_row($result);
 
@@ -81,7 +84,7 @@ class UserData {
       $this->response[] = $this->successTemp;
       return $this->response[0];
     } else {
-      $query = "Insert into `tbl_accounts_admin`
+      $query = "Insert into `tbl_accounts`
               (
                 AccountID,
                 AccountName,
@@ -90,9 +93,11 @@ class UserData {
                 FirstName,
                 MiddleName,
                 ExtName,
+                Icon,
+                Address,
                 Role,
-                AccountStatus,
-                Icon
+                Status,
+                AddedBy
               )
               values
               (
@@ -103,9 +108,11 @@ class UserData {
                 '$FirstName',
                 '$MiddleName',
                 '$ExtName',
+                '$Icon',
+                '$Address',
                 '$Role',
-                '$AccountStatus',
-                '$Icon'
+                '$Status',
+                '$AddedBy'
               )";
 
       if ($this->link->query($query) === TRUE) {
