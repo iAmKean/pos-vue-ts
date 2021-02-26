@@ -33,7 +33,7 @@
                         :auto-upload="false"
                         :show-file-list="false"
                         list-type="picture-card"
-                        :on-change="handleAvatarSuccess"
+                        disabled
                       >
                         <img
                           v-if="ruleForm.Icon"
@@ -49,27 +49,18 @@
                       <div class="radio">
                           <label class="label-c">Account Status:</label>
                           <el-radio-group v-model="ruleForm.Status" size="mini">
-                            <el-radio :label="1" border>Active</el-radio>
-                            <el-radio :label="2" border>Inactive</el-radio>
+                            <el-radio :label="'Active'" border disabled>Active</el-radio>
+                            <el-radio :label="'Inactive'" border disabled>Inactive</el-radio>
                           </el-radio-group>
                       </div>
 
                       <div class="dropdown-c">
                         <label class="label-c">Account Role:</label>
-                        <el-dropdown trigger="click" @command="selectRole">
-                          <el-button type="primary">
-                            {{ currRole }}
+                        <el-dropdown trigger="click">
+                          <el-button type="primary" disabled>
+                            {{ ruleForm.Role }}
                             <i class="el-icon-arrow-down el-icon--right"></i>
                           </el-button>
-                          <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item
-                              v-for="(typeItem, typeKey) in roleList"
-                              :key="typeKey"
-                              :command="typeItem"
-                            >
-                              {{ typeItem.Role }}
-                            </el-dropdown-item>
-                          </el-dropdown-menu>
                         </el-dropdown>
                       </div>
               
@@ -79,7 +70,6 @@
                     <el-form
                       :model="ruleForm"
                       status-icon
-                      :rules="rules"
                       size="medium"
                       ref="ruleForm"
                       label-position="left"
@@ -88,28 +78,25 @@
                         <el-input type="text" v-model="ruleForm.AccountID" autocomplete="off" readonly></el-input>
                       </el-form-item>
                       <el-form-item label="Account Name:" prop="AccountName">
-                        <el-input type="text" v-model="ruleForm.AccountName" autocomplete="off"></el-input>
+                        <el-input type="text" v-model="ruleForm.AccountName" autocomplete="off" readonly></el-input>
                       </el-form-item>
                       <el-form-item label="Account Password:" class="pass-con" prop="AccountPassword">
-                        <el-input type="password" v-model="ruleForm.AccountPassword" autocomplete="off"></el-input>
-                      </el-form-item>
-                      <el-form-item label="Confirm Account Password:" class="pass-con" prop="AccountConfirmPassword">
-                        <el-input type="password" v-model="ruleForm.AccountConfirmPassword" autocomplete="off"></el-input>
+                        <el-input type="password" v-model="ruleForm.AccountPassword" autocomplete="off" readonly></el-input>
                       </el-form-item>
                       <el-form-item label="Last Name:" prop="LastName">
-                        <el-input type="text" v-model="ruleForm.LastName" autocomplete="off"></el-input>
+                        <el-input type="text" v-model="ruleForm.LastName" autocomplete="off" readonly></el-input>
                       </el-form-item>
                       <el-form-item label="First Name:" prop="FirstName">
-                        <el-input type="text" v-model="ruleForm.FirstName" autocomplete="off"></el-input>
+                        <el-input type="text" v-model="ruleForm.FirstName" autocomplete="off" readonly></el-input>
                       </el-form-item>
                       <el-form-item label="Middle Name:" prop="MiddleName">
-                        <el-input type="text" v-model="ruleForm.MiddleName" autocomplete="off"></el-input>
+                        <el-input type="text" v-model="ruleForm.MiddleName" autocomplete="off" readonly></el-input>
                       </el-form-item>
                       <el-form-item label="Extension Name:">
-                        <el-input type="text" v-model="ruleForm.ExtName" autocomplete="off"></el-input>
+                        <el-input type="text" v-model="ruleForm.ExtName" autocomplete="off" readonly></el-input>
                       </el-form-item>
                       <el-form-item label="Address:" prop="Address">
-                        <el-input type="textarea" rows="5" v-model="ruleForm.Address"></el-input>
+                        <el-input type="textarea" rows="5" v-model="ruleForm.Address" readonly></el-input>
                       </el-form-item>
 
                       <div class="button-con">
@@ -160,9 +147,28 @@ export default {
   methods: {
     back() {
       this.$router.back();
+    },
+    getUser() {
+      let params = {
+        request: 11,
+        data: {
+          AccountID: this.$route.params.accountid,
+        }
+      };
+
+      this.http
+        .post(this.api.UserService, params)
+        .then(response => {
+          this.ruleForm = response.data[0];
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
-  created() {}
+  created() {
+    this.getUser();
+  }
 };
 </script>
 <style lang="less" scoped>

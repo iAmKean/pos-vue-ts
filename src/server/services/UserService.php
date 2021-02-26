@@ -55,6 +55,11 @@ if ($params) {
       // select latest user
         $data = new UserData($conn);
         echo json_encode($data->latestUser($params['data']));
+        break;
+    case 11:
+      // select user by accountid
+        $data = new UserData($conn);
+        echo json_encode($data->selectUserByAccountID($params['data']));
         break; 
     default:
       echo "Invalid Request";
