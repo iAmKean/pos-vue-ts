@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     handleClick(item) {
-      console.log(item);
+      // console.log(item);
     }
   },
   props: {},
