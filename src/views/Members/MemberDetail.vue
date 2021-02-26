@@ -28,12 +28,12 @@
                   <div class="icon">
                     <div class="upload">
                       <el-upload
+                        disabled
                         class="avatar-uploader"
                         action="#"
                         :auto-upload="false"
                         :show-file-list="false"
                         list-type="picture-card"
-                        disabled
                       >
                         <img
                           v-if="ruleForm.Icon"
@@ -61,6 +61,16 @@
                             {{ ruleForm.Role }}
                             <i class="el-icon-arrow-down el-icon--right"></i>
                           </el-button>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item
+                              disabled
+                              v-for="(typeItem, typeKey) in []"
+                              :key="typeKey"
+                              :command="typeItem"
+                            >
+                              {{ typeItem.Role }}
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
                         </el-dropdown>
                       </div>
               
@@ -94,6 +104,9 @@
                       </el-form-item>
                       <el-form-item label="Extension Name:">
                         <el-input type="text" v-model="ruleForm.ExtName" autocomplete="off" readonly></el-input>
+                      </el-form-item>
+                      <el-form-item label="Phone Number:" prop="Phone">
+                        <el-input type="text" v-model="ruleForm.Phone" autocomplete="off" readonly></el-input>
                       </el-form-item>
                       <el-form-item label="Address:" prop="Address">
                         <el-input type="textarea" rows="5" v-model="ruleForm.Address" readonly></el-input>

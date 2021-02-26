@@ -108,6 +108,9 @@
                       <el-form-item label="Extension Name:">
                         <el-input type="text" v-model="ruleForm.ExtName" autocomplete="off"></el-input>
                       </el-form-item>
+                      <el-form-item label="Phone Number:" prop="Phone">
+                        <el-input type="text" v-model="ruleForm.Phone" autocomplete="off"></el-input>
+                      </el-form-item>
                       <el-form-item label="Address:" prop="Address">
                         <el-input type="textarea" rows="5" v-model="ruleForm.Address"></el-input>
                       </el-form-item>
@@ -196,6 +199,13 @@ export default {
           callback();
         }
       };
+      var validatePhone = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('Please input the phone number again'));
+        }else {
+          callback();
+        }
+      };
     return {
         ruleForm: {
           AccountID: '',
@@ -206,6 +216,7 @@ export default {
           FirstName: '',
           MiddleName: '',
           ExtName: '',
+          Phone: '',
           Address: '',
           Icon: '',
           Status: 1,
@@ -236,6 +247,9 @@ export default {
           ],
           Address: [
             { validator: validateAddress, trigger: 'blur' }
+          ],
+          Phone: [
+            { validator: validatePhone, trigger: 'blur' }
           ],
         },
         currRole: '',

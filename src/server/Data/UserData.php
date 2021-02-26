@@ -26,7 +26,8 @@ class UserData {
               `tbl_accounts`.`isDelete`,
               `tbl_accounts`.`CreateTime`,
               `tbl_accounts`.`UpdateTime`,
-              ( Select `tbl_accounts`.`AccountName` from `tbl_accounts` where `tbl_accounts`.`AccountID`=`tbl_accounts`.`AddedBy`) AS AddedBy
+              ( Select `tbl_accounts`.`AccountName` from `tbl_accounts` where `tbl_accounts`.`AccountID`=`tbl_accounts`.`AddedBy`) AS AddedBy,
+              `tbl_accounts`.`Phone`
               From ((`tbl_accounts`
               Inner Join `tbl_status` ON `tbl_accounts`.`Status`=`tbl_status`.`ID`)
               Inner Join `tbl_role` ON `tbl_accounts`.`Role`=`tbl_role`.`ID`)
@@ -53,6 +54,7 @@ class UserData {
         $this->tempData["CreateTime"] = $row[13];
         $this->tempData["UpdateTime"] = $row[14];
         $this->tempData["AddedBy"] = $row[15];
+        $this->tempData["Phone"] = $row[16];
         $this->response[] = $this->tempData;
       }
     }
@@ -79,7 +81,8 @@ class UserData {
               `tbl_accounts`.`isDelete`,
               `tbl_accounts`.`CreateTime`,
               `tbl_accounts`.`UpdateTime`,
-              ( Select `tbl_accounts`.`AccountName` from `tbl_accounts` where `tbl_accounts`.`AccountID`=`tbl_accounts`.`AddedBy`) AS AddedBy
+              ( Select `tbl_accounts`.`AccountName` from `tbl_accounts` where `tbl_accounts`.`AccountID`=`tbl_accounts`.`AddedBy`) AS AddedBy,
+              `tbl_accounts`.`Phone`
               From ((`tbl_accounts`
               Inner Join `tbl_status` ON `tbl_accounts`.`Status`=`tbl_status`.`ID`)
               Inner Join `tbl_role` ON `tbl_accounts`.`Role`=`tbl_role`.`ID`)
@@ -107,6 +110,7 @@ class UserData {
         $this->tempData["CreateTime"] = $row[13];
         $this->tempData["UpdateTime"] = $row[14];
         $this->tempData["AddedBy"] = $row[15];
+        $this->tempData["Phone"] = $row[16];
         $this->response[] = $this->tempData;
       }
     }
@@ -123,6 +127,7 @@ class UserData {
     $MiddleName = $params['MiddleName'];
     $ExtName = $params['ExtName'];
     $Icon = $params['Icon'];
+    $Phone = $params['Phone'];
     $Address = $params['Address'];
     $Status = $params['Status'];
     $Role = $params['Role'];
@@ -151,7 +156,8 @@ class UserData {
                 Address,
                 Role,
                 Status,
-                AddedBy
+                AddedBy,
+                Phone
               )
               values
               (
@@ -166,7 +172,8 @@ class UserData {
                 '$Address',
                 '$Role',
                 '$Status',
-                '$AddedBy'
+                '$AddedBy',
+                '$Phone'
               )";
 
       if ($this->link->query($query) === TRUE) {
@@ -276,6 +283,7 @@ class UserData {
     $Address = $params['Address'];
     $Status = $params['Status'];
     $Role = $params['Role'];
+    $Phone = $params['Phone'];
 
     $query = "Update `tbl_accounts` SET
       `AccountID`='$AccountID',
@@ -289,7 +297,8 @@ class UserData {
       `Icon`='$Icon',
       `Address`='$Address',
       `Status`='$Status',
-      `Role`='$Role'
+      `Role`='$Role',
+      `Phone`='$Phone'
       where AccountID=$AccountID";
 
     if ($this->link->query($query) === TRUE) {
