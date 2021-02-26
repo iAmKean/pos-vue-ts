@@ -16,8 +16,8 @@
 
 export default {
   components: {
-    ModelTable: resolve => {
-      require(["@/components/settings/ModelTable.vue"], resolve);
+    BrandTable: resolve => {
+      require(["@/components/settings/BrandTable.vue"], resolve);
     },
     ModelPartTable: resolve => {
       require(["@/components/settings/ModelPartTable.vue"], resolve);
@@ -25,9 +25,9 @@ export default {
   },
   data() {
     return {
-      activeName: 'Models',
+      activeName: 'Brands',
       tabList: [
-        { name: 'Models', tableName: 'ModelTable' },
+        { name: 'Brands', tableName: 'BrandTable' },
         { name: 'Model Parts', tableName: 'ModelPartTable' }
       ],
     };

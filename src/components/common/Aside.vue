@@ -72,7 +72,10 @@ export default {
       console.log(key, keyPath);
     },
     selectTabContent(url) {
-      this.$router.push({ name: url ,})
+      if (this.$route.name == url) return;
+      else {
+        this.$router.push({ name: url ,})
+      } 
     }
   },
   created() {}

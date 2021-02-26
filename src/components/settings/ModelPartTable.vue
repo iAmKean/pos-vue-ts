@@ -12,7 +12,7 @@
     </div>
     <el-table
       :data="searchTable"
-      height="520"
+      height="450"
       :row-class-name="tableRowClassName"
       style="width: 100%">
       <el-table-column

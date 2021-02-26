@@ -12,7 +12,7 @@
     </div>
     <el-table
       :data="searchTable"
-      height="520"
+      height="450"
       :row-class-name="tableRowClassName"
       style="width: 100%">
       <el-table-column
@@ -47,7 +47,7 @@
     width="400px"
   >
     <template #title>
-      Add New Model
+      Add New Brand
     </template>
     <div class="add-brand-content">
         <el-form
@@ -58,8 +58,8 @@
           ref="ruleForm"
           label-position="left"
           label-width="100px" class="demo-ruleForm">
-          <el-form-item label="Model Name:" prop="Model">
-            <el-input type="text" v-model="ruleForm.Model" autocomplete="off"></el-input>
+          <el-form-item label="Brand Name:" prop="Brand">
+            <el-input type="text" v-model="ruleForm.Brand" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
     </div>
@@ -80,7 +80,7 @@
     width="400px"
   >
     <template #title>
-      Update Model
+      Update Brand
     </template>
     <div class="add-brand-content">
         <el-form
@@ -91,8 +91,8 @@
           ref="ruleForm"
           label-position="left"
           label-width="100px" class="demo-ruleForm">
-          <el-form-item label="Model Name:" prop="Model">
-            <el-input type="text" v-model="ruleForm.Model" autocomplete="off"></el-input>
+          <el-form-item label="Brand Name:" prop="Brand">
+            <el-input type="text" v-model="ruleForm.Brand" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
     </div>
@@ -112,9 +112,9 @@ import { tableProps } from "@/components/settings/tableProps_brand.js";
 
 export default {
   data() {
-    var validateModel = (rule, value, callback) => {
+    var validateBrand = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please input the model name'));
+        callback(new Error('Please input the brand name'));
       } else {
         callback();
       }
@@ -127,11 +127,11 @@ export default {
       showUpdateBrand: false,
       ruleForm: {
         ID: '',
-        Model: ''
+        Brand: ''
       },
       rules: {
-        Model: [
-          { validator: validateModel, trigger: 'blur' }
+        Brand: [
+          { validator: validateBrand, trigger: 'blur' }
         ],
       },
     }
@@ -174,7 +174,7 @@ export default {
     },
     showUpdate(item) {
       this.showUpdateBrand = true;
-      this.ruleForm.Model = item.Model;
+      this.ruleForm.Brand = item.Brand;
       this.ruleForm.ID = item.ID;
     },
     update() {
@@ -237,7 +237,7 @@ export default {
       if (this.search == "") return this.tableData;
       return this.tableData.filter(item => {
         return item.ID.indexOf(this.search) > -1 
-        || item.Model.indexOf(this.search) > -1;
+        || item.Brand.indexOf(this.search) > -1;
       });
     }
   },

@@ -16,7 +16,7 @@
                   <el-row>
                     <el-button type="success" @click="goPage('AddMember')">New</el-button>
                     <el-button type="warning" @click="goPage('MembersArchive')">Archives</el-button>
-                    <el-button type="primary">Print</el-button>
+                    <!-- <el-button type="primary">Print</el-button> -->
                   </el-row>
                 </div>
                 <div class="right">

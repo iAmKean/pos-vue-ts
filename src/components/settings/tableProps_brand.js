@@ -5,8 +5,8 @@ const tableProps = [
     width: "50"
   },
   {
-    propName: "Model",
-    propLabel: "Model",
+    propName: "Brand",
+    propLabel: "Brand",
     width: "180"
   },
   {

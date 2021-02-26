@@ -10,14 +10,14 @@ class BrandData {
   }
   
   function getAllBrand() {
-    $query = "Select * from `tbl_models`";
+    $query = "Select * from `tbl_brand`";
 
     $result = $this->link->query($query);
 
     while ($row = mysqli_fetch_row($result)) {
       if (count($row) > 0) {
         $this->tempData["ID"] = $row[0];
-        $this->tempData["Model"] = $row[1];
+        $this->tempData["Brand"] = $row[1];
         $this->response[] = $this->tempData;
       }
     }
@@ -26,14 +26,14 @@ class BrandData {
   
 
   function setBrand($params) {
-    $Model = $params['Model'];
-    $query = "Insert into `tbl_models`
+    $Brand = $params['Brand'];
+    $query = "Insert into `tbl_brand`
               (
-                `Model`
+                `Brand`
               ) 
               values 
               (
-                '$Model'
+                '$Brand'
               )";
     
     if ($this->link->query($query) === TRUE) {
@@ -51,10 +51,10 @@ class BrandData {
 
   function updateBrand($params) {
     $ID = $params['ID'];
-    $Model = $params['Model'];
+    $Brand = $params['Brand'];
 
-    $query = "Update `tbl_models` SET
-              `Model`='$Model'
+    $query = "Update `tbl_brand` SET
+              `Brand`='$Brand'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {

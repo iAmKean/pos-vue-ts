@@ -49,6 +49,12 @@ export default {
     }
   }
 
+  .el-main {
+    padding: 0px;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
   .el-header {
     height: 50px !important;
   }
