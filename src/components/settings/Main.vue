@@ -16,15 +16,19 @@
 
 export default {
   components: {
-    BrandTable: resolve => {
-      require(["@/components/settings/BrandTable.vue"], resolve);
+    ModelTable: resolve => {
+      require(["@/components/settings/ModelTable.vue"], resolve);
+    },
+    ModelPartTable: resolve => {
+      require(["@/components/settings/ModelPartTable.vue"], resolve);
     },
   },
   data() {
     return {
       activeName: 'Models',
       tabList: [
-        { name: 'Models', tableName: 'BrandTable' }
+        { name: 'Models', tableName: 'ModelTable' },
+        { name: 'Model Parts', tableName: 'ModelPartTable' }
       ],
     };
   },

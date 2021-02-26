@@ -31,6 +31,21 @@ if ($params) {
       $data = new BrandData($conn);
       echo json_encode($data->deleteBrandData($params['data']));
       break;
+    case 6:
+      // delete data
+        $data = new BrandData($conn);
+        echo json_encode($data->selectBrandPart($params['data']));
+        break;
+    case 7:
+      // delete data
+        $data = new BrandData($conn);
+        echo json_encode($data->setBrandPart($params['data']));
+        break;
+    case 8:
+      // delete data
+        $data = new BrandData($conn);
+        echo json_encode($data->updateBrandPart($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

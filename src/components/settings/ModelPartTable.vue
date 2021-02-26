@@ -3,7 +3,7 @@
     <div class="table-options">
       <div class="left">
         <el-row>
-          <el-button type="success" @click="showAddBrand = true">New</el-button>
+          <el-button type="success" @click="showAddModelPart = true">New</el-button>
         </el-row>
       </div>
       <div class="right">
@@ -32,22 +32,22 @@
             size="mini"
             placeholder="Type to search"/>
         </template>
-        <template slot-scope="scope" v-if="tableData[scope.$index].Role != 'Owner'">
+        <template slot-scope="scope">
           <el-button @click="showUpdate(tableData[scope.$index])" type="text" size="small">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
 
   <el-dialog
-    :visible.sync="showAddBrand"
+    :visible.sync="showAddModelPart"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
     top="50px"
-    width="400px"
+    width="450px"
   >
     <template #title>
-      Add New Brand
+      Add New Model Part
     </template>
     <div class="add-brand-content">
         <el-form
@@ -57,9 +57,9 @@
           size="medium"
           ref="ruleForm"
           label-position="left"
-          label-width="100px" class="demo-ruleForm">
-          <el-form-item label="Model Name:" prop="Model">
-            <el-input type="text" v-model="ruleForm.Model" autocomplete="off"></el-input>
+          label-width="150px" class="demo-ruleForm">
+          <el-form-item label="Model Part Name:" prop="ModelPart">
+            <el-input type="text" v-model="ruleForm.ModelPart" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
     </div>
@@ -72,15 +72,15 @@
   </el-dialog>
 
   <el-dialog
-    :visible.sync="showUpdateBrand"
+    :visible.sync="showUpdateBrandPart"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
     top="50px"
-    width="400px"
+    width="450px"
   >
     <template #title>
-      Update Model
+      Update Model Part
     </template>
     <div class="add-brand-content">
         <el-form
@@ -90,9 +90,9 @@
           size="medium"
           ref="ruleForm"
           label-position="left"
-          label-width="100px" class="demo-ruleForm">
-          <el-form-item label="Model Name:" prop="Model">
-            <el-input type="text" v-model="ruleForm.Model" autocomplete="off"></el-input>
+          label-width="150px" class="demo-ruleForm">
+          <el-form-item label="Model Part Name:" prop="ModelPart">
+            <el-input type="text" v-model="ruleForm.ModelPart" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
     </div>
@@ -108,13 +108,13 @@
 </template>
 
 <script>
-import { tableProps } from "@/components/settings/tableProps_brand.js";
+import { tableProps } from "@/components/settings/tableProps_parts.js";
 
 export default {
   data() {
-    var validateModel = (rule, value, callback) => {
+    var validateModelPart = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please input the model name'));
+        callback(new Error('Please input the model part name'));
       } else {
         callback();
       }
@@ -123,29 +123,29 @@ export default {
       search: '',
       tableProps: tableProps,
       tableData: [],
-      showAddBrand: false,
-      showUpdateBrand: false,
+      showAddModelPart: false,
+      showUpdateBrandPart: false,
       ruleForm: {
         ID: '',
-        Model: ''
+        ModelPart: ''
       },
       rules: {
-        Model: [
-          { validator: validateModel, trigger: 'blur' }
+        ModelPart: [
+          { validator: validateModelPart, trigger: 'blur' }
         ],
       },
     }
   },
   methods: {
     close() {
-      this.showAddBrand = false;
+      this.showAddModelPart = false;
       this.$refs.ruleForm.resetFields();
     },
     save() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           let params = {
-            request: 3,
+            request: 7,
             data: this.ruleForm
           };
 
@@ -173,15 +173,15 @@ export default {
       });
     },
     showUpdate(item) {
-      this.showUpdateBrand = true;
-      this.ruleForm.Model = item.Model;
+      this.showUpdateBrandPart = true;
+      this.ruleForm.ModelPart = item.ModelPart;
       this.ruleForm.ID = item.ID;
     },
     update() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           let params = {
-            request: 4,
+            request: 8,
             data: this.ruleForm
           };
 
@@ -208,9 +208,7 @@ export default {
       });
     },
     closeUpdate() {
-      this.showUpdateBrand = false;
-      this.$refs.ruleForm.resetFields();
-      this.modelItem = {};
+      this.showUpdateBrandPart = false;
     },
     tableRowClassName({row, rowIndex}) {
       if (rowIndex % 2 == 0) {
@@ -220,7 +218,7 @@ export default {
     },
     getModels() {
       let params = {
-        request: 1,
+        request: 6,
         data: {}
       };
 
@@ -239,7 +237,7 @@ export default {
       if (this.search == "") return this.tableData;
       return this.tableData.filter(item => {
         return item.ID.indexOf(this.search) > -1 
-        || item.Type.indexOf(this.search) > -1;
+        || item.ModelPart.indexOf(this.search) > -1;
       });
     }
   },
