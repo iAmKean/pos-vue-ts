@@ -49,6 +49,11 @@ const routes = [
     name: 'MembersArchive',
     component: () => import('../views/Members/MembersArchive.vue')
   },
+  {
+    path: '/Settings',
+    name: 'Settings',
+    component: () => import('../views/Settings/Settings.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -49,7 +49,12 @@ export default {
           name: "Members",
           icon: "el-icon-user-solid",
           link: 'Members',
-        }
+        },
+        {
+          name: "Settings",
+          icon: "el-icon-s-tools",
+          link: 'Settings',
+        },
       ],
     };
   },
