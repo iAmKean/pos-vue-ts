@@ -36,7 +36,7 @@ export default {
           link: 'Home',
         },
         {
-          name: "Inventory",
+          name: "Stocks",
           icon: "el-icon-notebook-2",
           link: 'Inventory',
         },
