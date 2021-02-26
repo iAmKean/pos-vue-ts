@@ -22,9 +22,9 @@ export default {
   },
   data() {
     return {
-      activeName: 'Brands',
+      activeName: 'Models',
       tabList: [
-        { name: 'Brands', tableName: 'BrandTable' }
+        { name: 'Models', tableName: 'BrandTable' }
       ],
     };
   },

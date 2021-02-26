@@ -54,7 +54,7 @@ class BrandData {
     $Model = $params['Model'];
 
     $query = "Update `tbl_models` SET
-              `Model`=$Model
+              `Model`='$Model'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {

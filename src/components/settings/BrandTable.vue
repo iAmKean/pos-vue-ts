@@ -33,7 +33,7 @@
             placeholder="Type to search"/>
         </template>
         <template slot-scope="scope" v-if="tableData[scope.$index].Role != 'Owner'">
-          <el-button @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
+          <el-button @click="showUpdate(tableData[scope.$index])" type="text" size="small">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -71,6 +71,39 @@
     </span>
   </el-dialog>
 
+  <el-dialog
+    :visible.sync="showUpdateBrand"
+    :show-close="false"
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    top="50px"
+    width="400px"
+  >
+    <template #title>
+      Update Model
+    </template>
+    <div class="add-brand-content">
+        <el-form
+          :model="ruleForm"
+          status-icon
+          :rules="rules"
+          size="medium"
+          ref="ruleForm"
+          label-position="left"
+          label-width="100px" class="demo-ruleForm">
+          <el-form-item label="Model Name:" prop="Model">
+            <el-input type="text" v-model="ruleForm.Model" autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+    </div>
+    <span slot="footer" class="dialog-footer">
+      <div class="button-con">
+        <el-button type="success" @click="update()">Update</el-button>
+        <el-button type="warning" @click="closeUpdate()">Cancel</el-button>
+      </div>
+    </span>
+  </el-dialog>
+
   </div>
 </template>
 
@@ -91,7 +124,9 @@ export default {
       tableProps: tableProps,
       tableData: [],
       showAddBrand: false,
+      showUpdateBrand: false,
       ruleForm: {
+        ID: '',
         Model: ''
       },
       rules: {
@@ -137,8 +172,45 @@ export default {
         }
       });
     },
-    update(item) {
+    showUpdate(item) {
+      this.showUpdateBrand = true;
+      this.ruleForm.Model = item.Model;
+      this.ruleForm.ID = item.ID;
+    },
+    update() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          let params = {
+            request: 4,
+            data: this.ruleForm
+          };
 
+          this.http
+            .post(this.api.BrandServices, params)
+            .then(response => {
+              if (response.data.State == 1) {
+                this.getModels();
+                this.$message({
+                  message: response.data.Message,
+                  type: 'success'
+                });
+              } else {
+                this.$message.error('Error');
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+
+        } else {
+          return false;
+        }
+      });
+    },
+    closeUpdate() {
+      this.showUpdateBrand = false;
+      this.$refs.ruleForm.resetFields();
+      this.modelItem = {};
     },
     tableRowClassName({row, rowIndex}) {
       if (rowIndex % 2 == 0) {
