@@ -94,7 +94,7 @@ export default {
         });
     },
     handleClick(item) {
-      console.log(item);
+      this.$router.push({ name: 'MemberDetail', params: { accountid: item.AccountID }});
     },
     tableRowClassName({row, rowIndex}) {
       if (rowIndex % 2 == 0) {
