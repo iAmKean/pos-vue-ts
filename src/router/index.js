@@ -39,6 +39,11 @@ const routes = [
     name: 'MemberDetail',
     component: () => import('../views/Members/MemberDetail.vue')
   },
+  {
+    path: '/members/edit-member/:accountid?',
+    name: 'EditMember',
+    component: () => import('../views/Members/EditMember.vue')
+  },
 ]
 
 const router = new VueRouter({

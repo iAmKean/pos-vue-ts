@@ -24,7 +24,7 @@
         </template>
         <template slot-scope="scope" v-if="tableData[scope.$index].Role != 'Owner'">
           <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
-          <el-button type="text" size="small">Edit</el-button>
+          <el-button @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
           <el-button type="text" size="small" @click="showRemoveMods(tableData[scope.$index])">Remove</el-button>
         </template>
       </el-table-column>
@@ -58,6 +58,9 @@ export default {
     }
   },
   methods: {
+    update(item) {
+      this.$router.push({ name: 'EditMember', params: { accountid: item.AccountID }});
+    },
     showRemoveMods(item) {
       this.centerDialogVisible = true;
       this.userItem = item;
