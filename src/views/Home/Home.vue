@@ -16,7 +16,7 @@
                   <el-row>
                     <el-button type="success" @click="$router.push({ name: 'AddItem' })">New</el-button>
                     <el-button type="warning" @click="goPage('MembersArchive')">Logs</el-button>
-                    <!-- <el-button type="primary">Print</el-button> -->
+                    <el-button type="primary">Print</el-button>
                   </el-row>
                 </div>
                 <div class="right">

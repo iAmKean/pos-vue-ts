@@ -51,7 +51,7 @@ export default {
       // this.$router.push({ name: 'EditMember', params: { accountid: item.AccountID }});
     },
     handleClick(item) {
-      // this.$router.push({ name: 'MemberDetail', params: { accountid: item.AccountID }});
+      this.$router.push({ name: 'DetailItem', params: { id: item.ID }});
     },
     tableRowClassName({row, rowIndex}) {
       let stockNum = this.tableData[rowIndex].Stocks;
@@ -85,6 +85,7 @@ export default {
         || item.ModelName.indexOf(this.search) > -1
         || item.Description.indexOf(this.search) > -1
         || item.BrandCategory.indexOf(this.search) > -1
+        || item.ModelPartCategory.indexOf(this.search) > -1
         || item.Price.indexOf(this.search) > -1
         || item.Stocks.indexOf(this.search) > -1;
       });
