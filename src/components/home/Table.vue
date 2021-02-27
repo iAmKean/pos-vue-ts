@@ -11,7 +11,7 @@
         :key="propKey"
         :prop="propItem.propName"
         :label="propItem.propLabel"
-        :align="propKey != 0 ? 'left' : 'center'"
+        :align="'center'"
         :width="propItem.width"/>
       <el-table-column
       :disable-transitions="true"

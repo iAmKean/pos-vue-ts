@@ -6,7 +6,7 @@ const tableProps = [
   },
   {
     propName: "BrandCategory",
-    propLabel: "Brand Category",
+    propLabel: "Brand",
     width: "170"
   },
   {
