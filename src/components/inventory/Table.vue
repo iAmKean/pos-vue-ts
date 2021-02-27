@@ -11,7 +11,7 @@
         :key="propKey"
         :prop="propItem.propName"
         :label="propItem.propLabel"
-        :align="propKey != 0 ? 'left' : 'center'"
+        :align="'center'"
         :width="propItem.width"/>
       <el-table-column
       :disable-transitions="true"
@@ -25,8 +25,8 @@
             placeholder="Type to search"/>
         </template>
         <template slot-scope="scope">
-          <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
-          <el-button @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
+          <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Add</el-button>
+          <el-button @click="update(tableData[scope.$index])" type="text" size="small">Less</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -54,12 +54,10 @@ export default {
       this.$router.push({ name: 'DetailItem', params: { id: item.ID }});
     },
     tableRowClassName({row, rowIndex}) {
-      let stockNum = this.tableData[rowIndex].Stocks;
-
       if (rowIndex % 2 == 0) {
-        return stockNum < Number(20) ? 'low-stock warning-row' : 'high-stock warning-row';
+        return 'warning-row';
       }
-      return stockNum < Number(20) ? 'low-stock' : 'high-stock';
+      return '';
     },
     getModels() {
       let params = {
@@ -68,7 +66,7 @@ export default {
       };
 
       this.http
-        .post(this.api.ModelService, params)
+        .post(this.api.StockService, params)
         .then(response => {
           this.tableData = response.data;
         })
@@ -83,11 +81,8 @@ export default {
       return this.tableData.filter(item => {
         return item.ID.indexOf(this.search) > -1 
         || item.ModelName.indexOf(this.search) > -1
-        || item.Description.indexOf(this.search) > -1
         || item.BrandCategory.indexOf(this.search) > -1
-        || item.ModelPartCategory.indexOf(this.search) > -1
-        || item.Price.indexOf(this.search) > -1
-        || item.Stocks.indexOf(this.search) > -1;
+        || item.ModelPartCategory.indexOf(this.search) > -1;
       });
     }
   },

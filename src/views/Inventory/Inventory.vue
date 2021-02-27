@@ -14,7 +14,7 @@
               <div class="table-options">
                 <div class="left">
                   <el-row>
-                    <el-button type="success">New</el-button>
+                    <!-- <el-button type="success">New</el-button> -->
                     <el-button type="warning">Logs</el-button>
                     <el-button type="primary">Print</el-button>
                   </el-row>
