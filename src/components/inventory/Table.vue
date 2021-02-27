@@ -39,7 +39,7 @@
       :close-on-press-escape="false"
       :close-on-click-modal="false"
       top="50px"
-      width="400px"
+      width="420px"
     >
       <template #title>
         Add Stock
@@ -52,7 +52,7 @@
             size="medium"
             ref="ruleFormStock"
             label-position="left"
-            label-width="150px" class="demo-ruleForm">
+            label-width="160px" class="demo-ruleForm">
             <!-- <el-form-item label="ID:">
               <el-input type="number" v-model="ruleFormStock.ID" autocomplete="off" readonly></el-input>
             </el-form-item> -->
@@ -67,7 +67,7 @@
               <el-input type="text" v-model="ruleFormStock.ModelPartCategory" autocomplete="off" readonly></el-input>
             </el-form-item>
             <el-divider content-position="left">Current Stock Number</el-divider>
-            <el-form-item label="Current Stock(s):">
+            <el-form-item label="Current Total Stock(s):">
               <el-input type="number" v-model="ruleFormStock.Stocks" autocomplete="off" readonly></el-input>
             </el-form-item>
             <el-divider content-position="left">New Stock Number</el-divider>
@@ -127,6 +127,7 @@ export default {
           { validator: validateNewStock, trigger: 'blur' }
         ],
       },
+      oldStockItem: {},
     }
   },
   methods: {
@@ -134,55 +135,85 @@ export default {
       this.$router.push({ name: 'EditItem', params: { id: item.ID }});
     },
     handleClickAdd(item) {
+      this.oldStockItem = item;
+      this.ruleFormStock.ID = item.ID;
       this.ruleFormStock.BrandCategory = item.BrandCategory;
       this.ruleFormStock.ModelName = item.ModelName;
       this.ruleFormStock.ModelPartCategory = item.ModelPartCategory;
-      this.ruleFormStock.Stocks = item.Stocks;
-      this.ruleFormStock.newTotalStocks = item.Stocks;
+      this.ruleFormStock.Stocks = Number(item.Stocks);
+      this.ruleFormStock.newTotalStocks = Number(item.Stocks);
+      this.ruleFormStock.AvailableItems = Number(item.AvailableItems);
+      this.ruleFormStock.SoldItems = Number(item.SoldItems);
       this.showAddStock = true;
     },
     addStock() {
      this.$refs.ruleFormStock.validate((valid) => {
         if (valid) {
           let params = {
-            request: 3,
+            request: 6,
             data: this.ruleFormStock
           };
 
-          console.log(params);
-          // this.http
-          //   .post(this.api.BrandServices, params)
-          //   .then(response => {
-          //     if (response.data.State == 1) {
-          //       this.getModels();
-          //       this.$message({
-          //         message: response.data.Message,
-          //         type: 'success'
-          //       });
-          //       this.$refs.ruleForm.resetFields();
-          //     } else {
-          //       this.$message.error('Error');
-          //     }
-          //   })
-          //   .catch(error => {
-          //     console.log(error);
-          //   });
+          this.http
+            .post(this.api.StockService, params)
+            .then(response => {
+              if (response.data.State == 1) {
+                this.showAddStock = false;
+                this.$refs.ruleFormStock.resetFields();
+                this.addStockLog();
+                this.getModels();
+                this.$message({
+                  message: response.data.Message,
+                  type: 'success'
+                });
+              } else {
+                this.$message.error('Error');
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
 
         } else {
           return false;
         }
       });
     },
+    addStockLog() {
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let params = {
+        request: 7,
+        data: {
+          UpdatedBy: userInfo.AccountName,
+          Action: 'Add Stock',
+          NewData: JSON.stringify(this.ruleFormStock),
+          PreviousData: JSON.stringify(this.oldStockItem),
+          UpdateTime: this.createTime(),
+        }
+      };
+
+      this.http
+        .post(this.api.StockService, params)
+        .then(response => {})
+        .catch(error => {
+          console.log(error);
+        });
+
+    },
     closeStock() {
       this.showAddStock = false;
-      this.$refs.ruleFormStock.resetFields();
+      // this.$refs.ruleFormStock.resetFields();
     },
     increaseVal() {
       this.ruleFormStock.newStock++;
+      if (this.ruleFormStock.newStock > 0) {
+        this.ruleFormStock.newTotalStocks++;
+      }
     },
     decreaseVal() {
       if (this.ruleFormStock.newStock !== 0) {
         this.ruleFormStock.newStock--;
+        this.ruleFormStock.newTotalStocks--;
       }
     },
     tableRowClassName({row, rowIndex}) {
@@ -207,7 +238,34 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    },
+    createTime() {
+      let today = new Date();
+      let currdate =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1 < 10
+          ? "0" + (today.getMonth() + 1)
+          : today.getMonth() + 1) +
+        "-" +
+        (today.getDate() < 10 ? "0" + today.getDate() : today.getDate());
+      let currHour =
+        today.getHours() < 10 ? "0" + today.getHours() : today.getHours();
+      let currMinutes =
+        today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
+      let currSeconds =
+        today.getSeconds() < 10 ? "0" + today.getSeconds() : today.getSeconds();
+      let timePeriod = today.getHours() < 13 ? "AM" : "PM";
+      let currtime =
+        currdate +
+        " " +
+        currHour +
+        ":" +
+        currMinutes +
+        ":" +
+        currSeconds
+      return currtime;
+    },
   },
   computed: {
     btnAddStatus: function () {
@@ -226,6 +284,15 @@ export default {
         || item.ModelPartCategory.indexOf(this.search) > -1;
       });
     }
+  },
+  watch: {
+    'ruleFormStock.newStock': function (newVal, oldVal) {
+      if (newVal) {
+        this.ruleFormStock.newTotalStocks = Number(this.ruleFormStock.Stocks) + Number(this.ruleFormStock.newStock);
+      } else {
+        this.ruleFormStock.newTotalStocks = Number(this.ruleFormStock.Stocks);
+      }
+    },
   },
   created() {
     this.getModels();

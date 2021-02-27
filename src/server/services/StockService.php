@@ -32,24 +32,14 @@ if ($params) {
       echo json_encode($data->deleteStockData($params['data']));
       break;
     case 6:
-      // delete data
+      // update stock and available count
         $data = new StockData($conn);
-        echo json_encode($data->countTotalModel($params['data']));
+        echo json_encode($data->updateStock($params['data']));
         break;
     case 7:
-      // delete data
+      // insert stock log
         $data = new StockData($conn);
-        echo json_encode($data->countLowTotalModel($params['data']));
-        break;
-    case 8:
-      // delete data
-        $data = new StockData($conn);
-        echo json_encode($data->countOutTotalModel($params['data']));
-        break;
-    case 9:
-      // get model by id
-        $data = new StockData($conn);
-        echo json_encode($data->getModelByID($params['data']));
+        echo json_encode($data->setStockLog($params['data']));
         break;
     default:
       echo "Invalid Request";
