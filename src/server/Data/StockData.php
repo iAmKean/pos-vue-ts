@@ -45,8 +45,32 @@ class StockData {
     $newTotalStocks = $params['newTotalStocks'];
 
     $query = "Update `tbl_model` SET
-              `Stocks`='$newTotalStocks',
               `AvailableItems`='$newTotalStocks'
+              where ID=$ID";
+
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+  }
+
+  function updateStockLess($params) {
+    $ID = $params['ID'];
+    // $newTotalStocks = $params['newTotalStocks'];
+    $AvailableItems = $params['newTotalStocks'];
+    $SoldItems = $params['SoldItems'];
+
+
+    $query = "Update `tbl_model` SET
+              `AvailableItems`='$AvailableItems',
+              `SoldItems`='$SoldItems'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {

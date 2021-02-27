@@ -41,6 +41,11 @@ if ($params) {
         $data = new StockData($conn);
         echo json_encode($data->setStockLog($params['data']));
         break;
+    case 8:
+      // update less stock and available count
+        $data = new StockData($conn);
+        echo json_encode($data->updateStockLess($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

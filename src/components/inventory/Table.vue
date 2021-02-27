@@ -131,7 +131,7 @@
             </el-form-item>
             <el-divider content-position="left">Less Stock Number</el-divider>
             <el-form-item label="Less Stock(s):" prop="newLessStock" class="add-con">
-              <el-input type="number" v-model="ruleFormLessStock.newStock" autocomplete="off"></el-input>
+              <el-input type="number" v-model="ruleFormLessStock.LessStock" autocomplete="off"></el-input>
               <el-button type="danger" icon="el-icon-plus" @click="increaseLessVal()"></el-button>
               <el-button type="success" :disabled="btnLessStatus" icon="el-icon-minus" @click="decreaseLessVal()"></el-button>
             </el-form-item>
@@ -142,7 +142,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <div class="button-con">
-          <el-button :disabled="btnLessStatus"  type="success" @click="lessStock()">Less Stock</el-button>
+          <el-button :disabled="btnLessStatus"  type="success" @click="addLessStock()">Less Stock</el-button>
           <el-button type="warning" @click="closeLessStock()">Cancel</el-button>
         </div>
       </span>
@@ -202,7 +202,7 @@ export default {
         Stocks: '',
         AvailableItems: '',
         SoldItems: '',
-        newStock: 0,
+        LessStock: 0,
         newTotalStocks: 0,
       },
       rulesLessStock: {
@@ -312,18 +312,73 @@ export default {
       this.ruleFormLessStock.SoldItems = Number(item.SoldItems);
       this.showLessStock = true;
     },
+    addLessStock() {
+     this.$refs.ruleFormLessStock.validate((valid) => {
+        if (valid) {
+          let params = {
+            request: 8,
+            data: this.ruleFormLessStock
+          };
+
+          this.http
+            .post(this.api.StockService, params)
+            .then(response => {
+              if (response.data.State == 1) {
+                this.showLessStock = false;
+                this.$refs.ruleFormLessStock.resetFields();
+                this.addLessStockLog();
+                this.getModels();
+                this.$message({
+                  message: response.data.Message,
+                  type: 'success'
+                });
+              } else {
+                this.$message.error('Error');
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+
+        } else {
+          return false;
+        }
+      });
+    },
+    addLessStockLog () {
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let params = {
+        request: 7,
+        data: {
+          UpdatedBy: userInfo.AccountName,
+          Action: 'Less Stock',
+          NewData: JSON.stringify(this.ruleFormLessStock),
+          PreviousData: JSON.stringify(this.oldLessStockItem),
+          UpdateTime: this.createTime(),
+        }
+      };
+
+      this.http
+        .post(this.api.StockService, params)
+        .then(response => {})
+        .catch(error => {
+          console.log(error);
+        });
+
+    },
     closeLessStock() {
       this.showLessStock = false;
     },
     increaseLessVal() {
-      this.ruleFormLessStock.newStock++;
-      if (this.ruleFormLessStock.newStock > 0) {
+      this.ruleFormLessStock.LessStock++;
+      if (this.ruleFormLessStock.LessStock > 0) {
         this.ruleFormLessStock.newTotalStocks--;
+        this.ruleFormLessStock.SoldItems++;
       }
     },
     decreaseLessVal() {
-      if (this.ruleFormLessStock.newStock !== 0) {
-        this.ruleFormLessStock.newStock--;
+      if (this.ruleFormLessStock.LessStock !== 0) {
+        this.ruleFormLessStock.LessStock--;
         this.ruleFormLessStock.newTotalStocks++;
       }
     },
@@ -387,7 +442,7 @@ export default {
       }
     },
     btnLessStatus: function () {
-      if (this.ruleFormLessStock.newStock > 0) {
+      if (this.ruleFormLessStock.LessStock > 0) {
         return false;
       } else {
         return true;
@@ -411,9 +466,9 @@ export default {
         this.ruleFormStock.newTotalStocks = Number(this.ruleFormStock.Stocks);
       }
     },
-    'ruleFormLessStock.newStock': function (newVal, oldVal) {
+    'ruleFormLessStock.LessStock': function (newVal, oldVal) {
       if (newVal) {
-        this.ruleFormLessStock.newTotalStocks = Number(this.ruleFormLessStock.Stocks) - Number(this.ruleFormLessStock.newStock);
+        this.ruleFormLessStock.newTotalStocks = Number(this.ruleFormLessStock.Stocks) - Number(this.ruleFormLessStock.LessStock);
       } else {
         this.ruleFormLessStock.newTotalStocks = Number(this.ruleFormLessStock.Stocks);
       }
@@ -452,11 +507,11 @@ input[type=number] {
     background: #f0f9eb;
   }
 
-  .el-table .low-stock td:nth-child(5){
+  .el-table .low-stock td:nth-child(6){
     color: red;
   }
 
-  .el-table .high-stock td:nth-child(5){
+  .el-table .high-stock td:nth-child(6){
     color: green;
   }
 
