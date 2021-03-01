@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    sales main
+    <!-- sales main -->
   </div>
 </template>
 

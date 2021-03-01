@@ -52,8 +52,13 @@ export default {
         },
         {
           name: "Category",
-          icon: "el-icon-s-tools",
+          icon: "el-icon-s-operation",
           link: 'Category',
+        },
+        {
+          name: "Report",
+          icon: "el-icon-notebook-1",
+          link: 'Report',
         },
       ],
     };

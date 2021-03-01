@@ -10,8 +10,8 @@
             <Aside :activeTab="'2'" />
           </el-aside>
           <el-container>
-            <el-main>
-              <Main />
+            <el-main >
+              <Main class="wip"/>
             </el-main>
           </el-container>
         </el-container>
@@ -41,6 +41,11 @@ export default {
 </script>
 <style lang="less">
 .home {
+  .wip {
+    background: url('../../assets/wip.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
   .home-wrapper {
     height: 100vh;
     min-width: 1200px;
