@@ -203,6 +203,7 @@ export default {
       }
     };
     return {
+      userInfo: {},
       search: '',
       tableProps: tableProps,
       tableData: [],
@@ -539,6 +540,7 @@ export default {
     },
   },
   created() {
+    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getModels();
   }
 }

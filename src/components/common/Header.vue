@@ -46,6 +46,10 @@ export default {
         this.logout();
       }
     },
+    logout() {
+      localStorage.removeItem('userInfo');
+      this.$router.push({ name: 'Login' })
+    }
   },
   created() {}
 };

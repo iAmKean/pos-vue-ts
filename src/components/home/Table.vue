@@ -26,7 +26,7 @@
         </template>
         <template slot-scope="scope">
           <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
-          <el-button @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
+          <el-button v-if="userInfo.Role != '3'" @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -44,6 +44,7 @@ export default {
       tableProps: tableProps,
       tableData: [],
       centerDialogVisible: false,
+      userInfo: {},
     }
   },
   methods: {
@@ -92,6 +93,7 @@ export default {
     }
   },
   created() {
+    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getModels();
   }
 }

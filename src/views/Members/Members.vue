@@ -14,9 +14,9 @@
               <div class="table-options">
                 <div class="left">
                   <el-row>
-                    <el-button type="success" @click="goPage('AddMember')">New</el-button>
-                    <el-button type="warning" @click="goPage('MembersArchive')">Archives</el-button>
-                    <!-- <el-button type="primary">Print</el-button> -->
+                    <el-button v-if="userInfo.Role != '3'" type="success" @click="goPage('AddMember')">New</el-button>
+                    <el-button v-if="userInfo.Role != '3'" type="warning" @click="goPage('MembersArchive')">Archives</el-button>
+                    <el-button v-if="userInfo.Role != '3'" type="primary">Print</el-button>
                   </el-row>
                 </div>
                 <div class="right">
@@ -50,6 +50,7 @@ export default {
     return {
       activeUserCount: '',
       userCount: '',
+      userInfo: {},
     };
   },
   methods: {
@@ -92,6 +93,7 @@ export default {
     },
   },
   created() {
+    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.countUserActive();
     this.countUser();
   }

@@ -14,8 +14,8 @@
               <div class="table-options">
                 <div class="left">
                   <el-row>
-                    <el-button type="success" @click="$router.push({ name: 'AddItem' })">New</el-button>
-                    <el-button type="warning" @click="goPage('MembersArchive')">Logs</el-button>
+                    <el-button type="success" v-if="userInfo.Role != '3'" @click="$router.push({ name: 'AddItem' })">New</el-button>
+                    <el-button type="warning" v-if="userInfo.Role != '3'" @click="goPage('MembersArchive')">Logs</el-button>
                     <el-button type="primary">Print</el-button>
                   </el-row>
                 </div>
@@ -52,6 +52,7 @@ export default {
       numberItems: '',
       numberLowStock: '',
       numberOutofStock: '',
+      userInfo: {},
     };
   },
   methods: {
@@ -102,6 +103,7 @@ export default {
     }
   },
   created() {
+    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.countTotalModel();
     this.countLowTotalModel();
     this.countOutTotalModel();

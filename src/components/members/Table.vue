@@ -24,8 +24,8 @@
         </template>
         <template slot-scope="scope" v-if="tableData[scope.$index].Role != 'Owner'">
           <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
-          <el-button @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
-          <el-button type="text" size="small" @click="showRemoveMods(tableData[scope.$index])">Remove</el-button>
+          <el-button v-if="userInfo.Role != '3'" @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
+          <el-button v-if="userInfo.Role == '1'" type="text" size="small" @click="showRemoveMods(tableData[scope.$index])">Remove</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -55,6 +55,7 @@ export default {
       tableData: [],
       centerDialogVisible: false,
       userItem: {},
+      userInfo: {},
     }
   },
   methods: {
@@ -135,6 +136,7 @@ export default {
     }
   },
   created() {
+    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getUsers();
   }
 }
