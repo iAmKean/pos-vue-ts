@@ -111,7 +111,7 @@
             size="medium"
             ref="ruleFormLessStock"
             label-position="left"
-            label-width="160px" class="demo-ruleForm">
+            label-width="180px" class="demo-ruleForm">
             <!-- <el-form-item label="ID:">
               <el-input type="number" v-model="ruleFormStock.ID" autocomplete="off" readonly></el-input>
             </el-form-item> -->
@@ -125,24 +125,42 @@
             <el-form-item label="Model Part:">
               <el-input type="text" v-model="ruleFormLessStock.ModelPartCategory" autocomplete="off" readonly></el-input>
             </el-form-item>
-            <el-divider content-position="left">Current Stock Number</el-divider>
-            <el-form-item label="Current Total Stock(s):">
+            <el-form-item label="Total Stock(s):">
               <el-input type="number" v-model="ruleFormLessStock.Stocks" autocomplete="off" readonly></el-input>
+            </el-form-item>
+            <el-divider content-position="left">Current Available Stock(s) Number</el-divider>
+            <el-form-item label="Current Available Stock(s):">
+              <el-input type="number" v-model="ruleFormLessStock.AvailableItems" autocomplete="off" readonly></el-input>
             </el-form-item>
             <el-divider content-position="left">Less Stock Number</el-divider>
             <el-form-item label="Less Stock(s):" prop="newLessStock" class="add-con">
-              <el-input type="number" v-model="ruleFormLessStock.LessStock" autocomplete="off"></el-input>
-              <el-button type="danger" icon="el-icon-plus" @click="increaseLessVal()"></el-button>
-              <el-button type="success" :disabled="btnLessStatus" icon="el-icon-minus" @click="decreaseLessVal()"></el-button>
+
+              <el-input type="number" v-model="ruleFormLessStock.LessStock" min="1" max="3" autocomplete="off"></el-input>
+
+              <el-button
+                type="danger"
+                icon="el-icon-plus"
+                :disabled="ruleFormLessStock.newAvailableStocks == 0 ? true: false"
+                @click="increaseLessVal()"></el-button>
+
+              <el-button
+                type="success"
+                :disabled="ruleFormLessStock.LessStock == 0 ? true: false"
+                icon="el-icon-minus"
+                @click="decreaseLessVal()"></el-button>
+
             </el-form-item>
-            <el-form-item label="New Total Stock(s):">
-              <el-input type="number" v-model="ruleFormLessStock.newTotalStocks" autocomplete="off" readonly></el-input>
+            <el-form-item label="New Available Stock(s):">
+              <el-input type="number" v-model="ruleFormLessStock.newAvailableStocks" autocomplete="off" readonly></el-input>
             </el-form-item>
           </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
         <div class="button-con">
-          <el-button :disabled="btnLessStatus"  type="success" @click="addLessStock()">Less Stock</el-button>
+          <el-button
+            :disabled="ruleFormLessStock.LessStock == 0 ? true : (ruleFormLessStock.LessStock > ruleFormLessStock.AvailableItems ? true : false )" 
+            type="success"
+            @click="addLessStock()">Less Stock</el-button>
           <el-button type="warning" @click="closeLessStock()">Cancel</el-button>
         </div>
       </span>
@@ -203,7 +221,7 @@ export default {
         AvailableItems: '',
         SoldItems: '',
         LessStock: 0,
-        newTotalStocks: 0,
+        newAvailableStocks: 0,
       },
       rulesLessStock: {
         newLessStock: [
@@ -307,7 +325,7 @@ export default {
       this.ruleFormLessStock.ModelName = item.ModelName;
       this.ruleFormLessStock.ModelPartCategory = item.ModelPartCategory;
       this.ruleFormLessStock.Stocks = Number(item.Stocks);
-      this.ruleFormLessStock.newTotalStocks = Number(item.Stocks);
+      this.ruleFormLessStock.newAvailableStocks = Number(item.AvailableItems);
       this.ruleFormLessStock.AvailableItems = Number(item.AvailableItems);
       this.ruleFormLessStock.SoldItems = Number(item.SoldItems);
       this.showLessStock = true;
@@ -315,31 +333,43 @@ export default {
     addLessStock() {
      this.$refs.ruleFormLessStock.validate((valid) => {
         if (valid) {
-          let params = {
-            request: 8,
-            data: this.ruleFormLessStock
-          };
-
-          this.http
-            .post(this.api.StockService, params)
-            .then(response => {
-              if (response.data.State == 1) {
-                this.showLessStock = false;
-                this.$refs.ruleFormLessStock.resetFields();
-                this.addLessStockLog();
-                this.getModels();
-                this.$message({
-                  message: response.data.Message,
-                  type: 'success'
-                });
-              } else {
-                this.$message.error('Error');
-              }
-            })
-            .catch(error => {
-              console.log(error);
-            });
-
+          let validateChar = ['.', 'e', '-', '+'];
+          this.ruleFormLessStock.LessStock = this.ruleFormLessStock.LessStock.toString();
+          if (this.ruleFormLessStock.LessStock.includes(validateChar[0])
+              || this.ruleFormLessStock.LessStock.includes(validateChar[1])
+              || this.ruleFormLessStock.LessStock.includes(validateChar[2])
+              || this.ruleFormLessStock.LessStock.includes(validateChar[3])) {
+              this.$message({
+                message: 'Please input valid stock number',
+                type: 'error'
+              });
+              this.ruleFormLessStock.LessStock = 0;
+          } else {
+            let params = {
+              request: 8,
+              data: this.ruleFormLessStock
+            };
+            this.http
+              .post(this.api.StockService, params)
+              .then(response => {
+                if (response.data.State == 1) {
+                  this.showLessStock = false;
+                  this.$refs.ruleFormLessStock.resetFields();
+                  this.ruleFormLessStock.LessStock = 0;
+                  this.addLessStockLog();
+                  this.getModels();
+                  this.$message({
+                    message: response.data.Message,
+                    type: 'success'
+                  });
+                } else {
+                  this.$message.error('Error');
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }
         } else {
           return false;
         }
@@ -368,22 +398,24 @@ export default {
     },
     closeLessStock() {
       this.showLessStock = false;
+      // this.ruleFormLessStock = {};
+      this.ruleFormLessStock.LessStock = 0;
     },
     increaseLessVal() {
       this.ruleFormLessStock.LessStock++;
       if (this.ruleFormLessStock.LessStock > 0) {
-        this.ruleFormLessStock.newTotalStocks--;
+        this.ruleFormLessStock.newAvailableStocks--;
         this.ruleFormLessStock.SoldItems++;
       }
     },
     decreaseLessVal() {
       if (this.ruleFormLessStock.LessStock !== 0) {
         this.ruleFormLessStock.LessStock--;
-        this.ruleFormLessStock.newTotalStocks++;
+        this.ruleFormLessStock.newAvailableStocks++;
       }
     },
     tableRowClassName({row, rowIndex}) {
-      let stockNum = this.tableData[rowIndex].Stocks;
+      let stockNum = this.tableData[rowIndex].AvailableItems;
 
       if (rowIndex % 2 == 0) {
         return stockNum < Number(20) ? 'low-stock warning-row' : 'high-stock warning-row';
@@ -443,7 +475,11 @@ export default {
     },
     btnLessStatus: function () {
       if (this.ruleFormLessStock.LessStock > 0) {
-        return false;
+        if (this.ruleFormLessStock.newAvailableStocks === 0 ) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return true;
       }
@@ -468,9 +504,9 @@ export default {
     },
     'ruleFormLessStock.LessStock': function (newVal, oldVal) {
       if (newVal) {
-        this.ruleFormLessStock.newTotalStocks = Number(this.ruleFormLessStock.Stocks) - Number(this.ruleFormLessStock.LessStock);
+        this.ruleFormLessStock.newAvailableStocks = Number(this.ruleFormLessStock.AvailableItems) - Number(this.ruleFormLessStock.LessStock);
       } else {
-        this.ruleFormLessStock.newTotalStocks = Number(this.ruleFormLessStock.Stocks);
+        this.ruleFormLessStock.newAvailableStocks = Number(this.ruleFormLessStock.AvailableItems);
       }
     },
   },

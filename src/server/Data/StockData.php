@@ -64,12 +64,12 @@ class StockData {
   function updateStockLess($params) {
     $ID = $params['ID'];
     // $newTotalStocks = $params['newTotalStocks'];
-    $AvailableItems = $params['newTotalStocks'];
+    $newAvailableStocks = $params['newAvailableStocks'];
     $SoldItems = $params['SoldItems'];
 
 
     $query = "Update `tbl_model` SET
-              `AvailableItems`='$AvailableItems',
+              `AvailableItems`='$newAvailableStocks',
               `SoldItems`='$SoldItems'
               where ID=$ID";
 
