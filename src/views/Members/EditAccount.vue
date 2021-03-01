@@ -177,26 +177,26 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           let params = {
-            request: 4,
+            request: 5,
             data: this.ruleForm
           };
 
-          console.log(params);
-          // this.http
-          //   .post(this.api.UserService, params)
-          //   .then(response => {
-          //     if (response.data.State == 1) {
-          //       this.$message({
-          //         message: response.data.Message,
-          //         type: 'success'
-          //       });
-          //     } else {
-          //       this.$message.error('Error');
-          //     }
-          //   })
-          //   .catch(error => {
-          //     console.log(error);
-          //   });
+          this.http
+            .post(this.api.UserService, params)
+            .then(response => {
+              if (response.data.State == 1) {
+                this.$message({
+                  message: response.data.Message,
+                  type: 'success'
+                });
+                this.getUser();
+              } else {
+                this.$message.error('Error');
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
         } else {
           return false;
         }
@@ -234,16 +234,8 @@ export default {
       this.http
         .post(this.api.UserService, params)
         .then(response => {
-          this.ruleForm.AccountID = response.data[0].AccountID;
-          this.ruleForm.AccountName = response.data[0].AccountName;
-          this.ruleForm.AccountPassword = response.data[0].AccountPassword;
-          this.ruleForm.LastName = response.data[0].LastName;
-          this.ruleForm.FirstName = response.data[0].FirstName;
-          this.ruleForm.MiddleName = response.data[0].MiddleName;
-          this.ruleForm.ExtName = response.data[0].ExtName;
-          this.ruleForm.Address = response.data[0].Address;
-          this.ruleForm.Icon = response.data[0].Icon;
-          this.ruleForm.Phone = response.data[0].Phone;
+          localStorage.setItem("userInfo", JSON.stringify(response.data[0]))
+          this.ruleForm = JSON.parse(localStorage.getItem("userInfo"));
         })
         .catch(error => {
           console.log(error);

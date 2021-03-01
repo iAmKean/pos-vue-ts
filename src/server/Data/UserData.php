@@ -367,20 +367,24 @@ class UserData {
   }
 
   function updateUserAccount($params) {
-    $ID = $params['ID'];
+    $AccountID = $params['AccountID'];
     $LastName = $params['LastName'];
     $FirstName = $params['FirstName'];
     $MiddleName = $params['MiddleName'];
     $ExtName = $params['ExtName'];
     $Icon = $params['Icon'];
+    $Phone = $params['Phone'];
+    $Address = $params['Address'];
 
-    $query = "Update `tbl_accounts_admin` SET
+    $query = "Update `tbl_accounts` SET
       `LastName`='$LastName',
       `FirstName`='$FirstName',
       `MiddleName`='$MiddleName',
       `ExtName`='$ExtName',
+      `Address`='$Address',
+      `Phone`='$Phone',
       `Icon`='$Icon'
-      where ID=$ID";
+      where AccountID=$AccountID";
 
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;
