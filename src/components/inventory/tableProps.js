@@ -22,17 +22,17 @@ const tableProps = [
   {
     propName: "Stocks",
     propLabel: "Total Stocks",
-    width: "120"
+    width: "140"
   },
   {
     propName: "AvailableItems",
-    propLabel: "Available",
-    width: "120"
+    propLabel: "Available Stocks",
+    width: "140"
   },
   {
     propName: "SoldItems",
-    propLabel: "Sold",
-    width: "120"
+    propLabel: "Sold Stocks",
+    width: "140"
   },
 ];
 

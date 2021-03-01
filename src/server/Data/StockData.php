@@ -42,10 +42,12 @@ class StockData {
   
   function updateStock($params) {
     $ID = $params['ID'];
+    $newAvailableItems = $params['newAvailableItems'];
     $newTotalStocks = $params['newTotalStocks'];
 
     $query = "Update `tbl_model` SET
-              `AvailableItems`='$newTotalStocks'
+              `Stocks`='$newTotalStocks',
+              `AvailableItems`='$newAvailableItems'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {

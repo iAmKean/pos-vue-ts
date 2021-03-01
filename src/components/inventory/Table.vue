@@ -233,9 +233,6 @@ export default {
     }
   },
   methods: {
-    update(item) {
-      this.$router.push({ name: 'EditItem', params: { id: item.ID }});
-    },
     handleClickAdd(item) {
       this.oldStockItem = item;
       this.ruleFormStock.ID = item.ID;
@@ -245,37 +242,54 @@ export default {
       this.ruleFormStock.Stocks = Number(item.Stocks);
       this.ruleFormStock.newTotalStocks = Number(item.Stocks);
       this.ruleFormStock.AvailableItems = Number(item.AvailableItems);
+      this.ruleFormStock.newAvailableItems = Number(item.AvailableItems);
       this.ruleFormStock.SoldItems = Number(item.SoldItems);
       this.showAddStock = true;
     },
     addStock() {
      this.$refs.ruleFormStock.validate((valid) => {
         if (valid) {
-          let params = {
-            request: 6,
-            data: this.ruleFormStock
-          };
+          this.ruleFormStock.newAvailableItems = this.ruleFormStock.newAvailableItems + Number(this.ruleFormStock.newStock);
+          let validateChar = ['.', 'e', '-', '+'];
+          this.ruleFormStock.newStock = this.ruleFormStock.newStock.toString();
+          console.log(this.ruleFormStock.newStock);
+          if (this.ruleFormStock.newStock.includes(validateChar[0])
+              || this.ruleFormStock.newStock.includes(validateChar[1])
+              || this.ruleFormStock.newStock.includes(validateChar[2])
+              || this.ruleFormStock.newStock.includes(validateChar[3])) {
+              this.$message({
+                message: 'Please input valid stock number',
+                type: 'error'
+              });
+              this.ruleFormStock.newAvailableItems = Number(this.ruleFormStock.AvailableItems);
+              this.ruleFormStock.newStock = 0;
+          } else {
+            let params = {
+              request: 6,
+              data: this.ruleFormStock
+            };
 
-          this.http
-            .post(this.api.StockService, params)
-            .then(response => {
-              if (response.data.State == 1) {
-                this.showAddStock = false;
-                this.$refs.ruleFormStock.resetFields();
-                this.addStockLog();
-                this.getModels();
-                this.$message({
-                  message: response.data.Message,
-                  type: 'success'
-                });
-              } else {
-                this.$message.error('Error');
-              }
-            })
-            .catch(error => {
-              console.log(error);
-            });
-
+            this.http
+              .post(this.api.StockService, params)
+              .then(response => {
+                if (response.data.State == 1) {
+                  this.ruleFormStock.newStock = 0;
+                  this.showAddStock = false;
+                  this.$refs.ruleFormStock.resetFields();
+                  this.addStockLog();
+                  this.getModels();
+                  this.$message({
+                    message: response.data.Message,
+                    type: 'success'
+                  });
+                } else {
+                  this.$message.error('Error');
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }
         } else {
           return false;
         }
@@ -304,7 +318,7 @@ export default {
     },
     closeStock() {
       this.showAddStock = false;
-      // this.$refs.ruleFormStock.resetFields();
+      this.ruleFormStock.newStock = 0;
     },
     increaseVal() {
       this.ruleFormStock.newStock++;
