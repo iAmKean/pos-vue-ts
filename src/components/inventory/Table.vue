@@ -357,8 +357,10 @@ export default {
                 message: 'Please input valid stock number',
                 type: 'error'
               });
+              this.ruleFormStock.newTotalStocks = Number(this.ruleFormStock.Stocks);
               this.ruleFormLessStock.LessStock = 0;
           } else {
+            this.ruleFormLessStock.SoldItems = Number(this.ruleFormLessStock.SoldItems) + Number(this.ruleFormLessStock.LessStock);
             let params = {
               request: 8,
               data: this.ruleFormLessStock
@@ -419,7 +421,6 @@ export default {
       this.ruleFormLessStock.LessStock++;
       if (this.ruleFormLessStock.LessStock > 0) {
         this.ruleFormLessStock.newAvailableStocks--;
-        this.ruleFormLessStock.SoldItems++;
       }
     },
     decreaseLessVal() {

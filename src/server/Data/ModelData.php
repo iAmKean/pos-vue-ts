@@ -193,7 +193,7 @@ class ModelData {
   }
 
   function countLowTotalModel($params) {
-    $query = "Select count(ID) from `tbl_model` where `Stocks` < 20 and `Stocks` <> 0";
+    $query = "Select count(ID) from `tbl_model` where `AvailableItems` < 20 and `Stocks` <> 0";
 
     $result = $this->link->query($query);
 
@@ -207,7 +207,7 @@ class ModelData {
   }
 
   function countOutTotalModel($params) {
-    $query = "Select count(ID) from `tbl_model` where `Stocks` = 0";
+    $query = "Select count(ID) from `tbl_model` where `AvailableItems` = 0";
 
     $result = $this->link->query($query);
 

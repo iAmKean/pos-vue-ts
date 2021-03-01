@@ -77,8 +77,8 @@
                       <el-form-item label="Price:" prop="Price" >
                         <el-input type="text" v-model="ruleForm.Price" autocomplete="off"></el-input>
                       </el-form-item>
-                      <el-form-item label="Stocks:" prop="Stocks">
-                        <el-input type="text" v-model="ruleForm.Stocks" autocomplete="off"></el-input>
+                      <el-form-item label="Stocks (Disabled):" prop="Stocks">
+                        <el-input type="text" v-model="ruleForm.Stocks" autocomplete="off" readonly></el-input>
                       </el-form-item>
 
                       <div class="button-con">
