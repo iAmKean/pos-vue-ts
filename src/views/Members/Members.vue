@@ -20,8 +20,8 @@
                   </el-row>
                 </div>
                 <div class="right">
-                  <el-tag type="success">Active User(s): {{ activeUserCount }}</el-tag>
-                  <el-tag>Number of User(s): {{ userCount }}</el-tag>
+                  <el-tag type="success">Active user(s): {{ activeUserCount }}</el-tag>
+                  <el-tag>Number of user(s): {{ userCount }}</el-tag>
                 </div>
               </div>
               <Table @updateData="updateData()"/>

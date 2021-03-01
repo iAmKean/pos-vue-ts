@@ -38,8 +38,8 @@
       :show-close="false"
       :close-on-press-escape="false"
       :close-on-click-modal="false"
-      top="50px"
-      width="420px"
+      top="100px"
+      width="850px"
     >
       <template #title>
         Add Stock
@@ -56,29 +56,36 @@
             <!-- <el-form-item label="ID:">
               <el-input type="number" v-model="ruleFormStock.ID" autocomplete="off" readonly></el-input>
             </el-form-item> -->
-            <el-divider content-position="left">Item Detail</el-divider>
-            <el-form-item label="Brand:">
-              <el-input type="text" v-model="ruleFormStock.BrandCategory" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="Model:">
-              <el-input type="text" v-model="ruleFormStock.ModelName" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="Model Part:">
-              <el-input type="text" v-model="ruleFormStock.ModelPartCategory" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-divider content-position="left">Current Stock Number</el-divider>
-            <el-form-item label="Current Total Stock(s):">
-              <el-input type="number" v-model="ruleFormStock.Stocks" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-divider content-position="left">New Stock Number</el-divider>
-            <el-form-item label="Add Stock(s):" prop="newStock" class="add-con">
-              <el-input type="number" v-model="ruleFormStock.newStock" autocomplete="off"></el-input>
-              <el-button type="success" icon="el-icon-plus" @click="increaseVal()"></el-button>
-              <el-button type="danger" :disabled="btnAddStatus" icon="el-icon-minus" @click="decreaseVal()"></el-button>
-            </el-form-item>
-            <el-form-item label="New Total Stock(s):">
-              <el-input type="number" v-model="ruleFormStock.newTotalStocks" autocomplete="off" readonly></el-input>
-            </el-form-item>
+
+            <div class="left">
+              <el-divider content-position="left">Item Detail</el-divider>
+              <el-form-item label="Brand:">
+                <el-input type="text" v-model="ruleFormStock.BrandCategory" autocomplete="off" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="Model:">
+                <el-input type="text" v-model="ruleFormStock.ModelName" autocomplete="off" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="Model Part:">
+                <el-input type="text" v-model="ruleFormStock.ModelPartCategory" autocomplete="off" readonly></el-input>
+              </el-form-item>
+            </div>
+
+            <div class="right">
+              <el-divider content-position="left">Current Stock Number</el-divider>
+              <el-form-item label="Current Total Stock(s):">
+                <el-input type="number" v-model="ruleFormStock.Stocks" autocomplete="off" readonly></el-input>
+              </el-form-item>
+              <el-divider content-position="left">New Stock Number</el-divider>
+              <el-form-item label="Add Stock(s):" prop="newStock" class="add-con">
+                <el-button type="danger" :disabled="btnAddStatus" icon="el-icon-minus" @click="decreaseVal()"></el-button>
+                <el-input type="number" v-model="ruleFormStock.newStock" autocomplete="off"></el-input>
+                <el-button type="success" icon="el-icon-plus" @click="increaseVal()"></el-button>
+              </el-form-item>
+              <el-form-item label="New Total Stock(s):">
+                <el-input type="number" v-model="ruleFormStock.newTotalStocks" autocomplete="off" readonly></el-input>
+              </el-form-item>
+            </div>
+
           </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -97,8 +104,8 @@
       :show-close="false"
       :close-on-press-escape="false"
       :close-on-click-modal="false"
-      top="50px"
-      width="420px"
+      top="100px"
+      width="850px"
     >
       <template #title>
         Less Stock
@@ -112,47 +119,53 @@
             ref="ruleFormLessStock"
             label-position="left"
             label-width="180px" class="demo-ruleForm">
-            <!-- <el-form-item label="ID:">
-              <el-input type="number" v-model="ruleFormStock.ID" autocomplete="off" readonly></el-input>
-            </el-form-item> -->
-            <el-divider content-position="left">Item Detail</el-divider>
-            <el-form-item label="Brand:">
-              <el-input type="text" v-model="ruleFormLessStock.BrandCategory" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="Model:">
-              <el-input type="text" v-model="ruleFormLessStock.ModelName" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="Model Part:">
-              <el-input type="text" v-model="ruleFormLessStock.ModelPartCategory" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="Total Stock(s):">
-              <el-input type="number" v-model="ruleFormLessStock.Stocks" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-divider content-position="left">Current Available Stock(s) Number</el-divider>
-            <el-form-item label="Current Available Stock(s):">
-              <el-input type="number" v-model="ruleFormLessStock.AvailableItems" autocomplete="off" readonly></el-input>
-            </el-form-item>
-            <el-divider content-position="left">Less Stock Number</el-divider>
-            <el-form-item label="Less Stock(s):" prop="newLessStock" class="add-con">
+            <div class="left">
+              <!-- <el-form-item label="ID:">
+                <el-input type="number" v-model="ruleFormStock.ID" autocomplete="off" readonly></el-input>
+              </el-form-item> -->
+              <el-divider content-position="left">Item Detail</el-divider>
+              <el-form-item label="Brand:">
+                <el-input type="text" v-model="ruleFormLessStock.BrandCategory" autocomplete="off" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="Model:">
+                <el-input type="text" v-model="ruleFormLessStock.ModelName" autocomplete="off" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="Model Part:">
+                <el-input type="text" v-model="ruleFormLessStock.ModelPartCategory" autocomplete="off" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="Total Stock(s):">
+                <el-input type="number" v-model="ruleFormLessStock.Stocks" autocomplete="off" readonly></el-input>
+              </el-form-item>
+            </div>
+            <div class="right">
+              <el-divider content-position="left">Current Available Stock(s) Number</el-divider>
+              <el-form-item label="Current Available Stock(s):">
+                <el-input type="number" v-model="ruleFormLessStock.AvailableItems" autocomplete="off" readonly></el-input>
+              </el-form-item>
+              <el-divider content-position="left">Less Stock Number</el-divider>
+              <el-form-item label="Less Stock(s):" prop="newLessStock" class="add-con">
 
-              <el-input type="number" v-model="ruleFormLessStock.LessStock" min="1" max="3" autocomplete="off"></el-input>
+                <el-button
+                  type="danger"
+                  :disabled="ruleFormLessStock.LessStock == 0 ? true: false"
+                  icon="el-icon-minus"
+                  @click="decreaseLessVal()"></el-button>
 
-              <el-button
-                type="danger"
-                icon="el-icon-plus"
-                :disabled="ruleFormLessStock.newAvailableStocks == 0 ? true: false"
-                @click="increaseLessVal()"></el-button>
+                <el-input type="number" v-model="ruleFormLessStock.LessStock" min="1" max="3" autocomplete="off"></el-input>
 
-              <el-button
-                type="success"
-                :disabled="ruleFormLessStock.LessStock == 0 ? true: false"
-                icon="el-icon-minus"
-                @click="decreaseLessVal()"></el-button>
+                <el-button
+                  type="success"
+                  icon="el-icon-plus"
+                  :disabled="ruleFormLessStock.newAvailableStocks == 0 ? true: false"
+                  @click="increaseLessVal()"></el-button>
 
-            </el-form-item>
-            <el-form-item label="New Available Stock(s):">
-              <el-input type="number" v-model="ruleFormLessStock.newAvailableStocks" autocomplete="off" readonly></el-input>
-            </el-form-item>
+
+
+              </el-form-item>
+              <el-form-item label="New Available Stock(s):">
+                <el-input type="number" v-model="ruleFormLessStock.newAvailableStocks" autocomplete="off" readonly></el-input>
+              </el-form-item>
+            </div>
           </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -538,6 +551,19 @@ export default {
     }
     .el-dialog__body {
       padding-top: 0px;
+      padding-bottom: 10px;
+
+      .el-form {
+        display: flex;
+      }
+
+      .el-form>div {
+        flex: 1;
+      }
+
+      .el-form .left {
+        margin-right: 30px;
+      }
     }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -570,7 +596,7 @@ input[type=number] {
     display: flex;
 
     .el-button {
-      margin: 0px 0px 0px 10px;
+      margin: 0px 10px;
     }
   }
 </style>

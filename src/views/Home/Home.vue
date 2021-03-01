@@ -20,9 +20,9 @@
                   </el-row>
                 </div>
                 <div class="right">
-                  <el-tag type="success">No. of Item(s): {{ numberItems }}</el-tag>
-                  <el-tag type="warning">Low in Stock(s): {{ numberLowStock }} <i class="el-icon-question"></i></el-tag>
-                  <el-tag type="danger">Out of Stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag>
+                  <el-tag type="success">No. of item(s): {{ numberItems }}</el-tag>
+                  <el-tag type="warning">Low in stock(s): {{ numberLowStock }} <i class="el-icon-question"></i></el-tag>
+                  <el-tag type="danger">No available stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag>
                 </div>
               </div>
               <Table @updateData="updateData()"/>
