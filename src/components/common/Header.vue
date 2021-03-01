@@ -41,7 +41,7 @@ export default {
       if (val == 0) {
         this.$router.push({ name: 'EditAccount'})
       } else if (val == 1) {
-        this.showUpdatePass = true;
+        this.$router.push({ name: 'ChangePassword'})
       } else {
         this.logout();
       }

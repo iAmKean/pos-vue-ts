@@ -400,20 +400,20 @@ class UserData {
   }
 
   function updateUserPassword($params) {
-    $id = $params['ID'];
+    $AccountID = $params['AccountID'];
     $currPassword = $params['currPassword'];
     $newPass = $params['newPass'];
 
-    $query = "Select * From `tbl_accounts_admin`
-              Where `tbl_accounts_admin`.`ID`='$id'
-              And  `tbl_accounts_admin`.`AccountPassword`='$currPassword'";
+    $query = "Select * From `tbl_accounts`
+              Where `tbl_accounts`.`AccountID`='$AccountID'
+              And  `tbl_accounts`.`AccountPassword`='$currPassword'";
     $result = $this->link->query($query);
     $row = mysqli_fetch_row($result);
 
     if ($row != null) {
       $rowStudentID = $row[0];
 
-      $query = "Update `tbl_accounts_admin` SET `AccountPassword`='$newPass'
+      $query = "Update `tbl_accounts` SET `AccountPassword`='$newPass'
       where `ID`=$rowStudentID";
 
       if ($this->link->query($query) === TRUE) {

@@ -70,6 +70,11 @@ const routes = [
     component: () => import('../views/Members/EditAccount.vue')
   },
   {
+    path: '/change-password',
+    name: 'ChangePassword',
+    component: () => import('../views/Members/ChangePassword.vue')
+  },
+  {
     path: '/category',
     name: 'Category',
     component: () => import('../views/Category/Category.vue')
