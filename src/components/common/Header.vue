@@ -15,7 +15,7 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <!-- <el-dropdown-item>Notifications</el-dropdown-item> -->
-          <el-dropdown-item :command="0">Edit Account</el-dropdown-item>
+          <el-dropdown-item :command="0">Edit Profile</el-dropdown-item>
           <el-dropdown-item :command="1">Change Password</el-dropdown-item>
           <el-dropdown-item :command="2">Log out</el-dropdown-item>
         </el-dropdown-menu>
@@ -39,7 +39,7 @@ export default {
     },
     selectAction(val) {
       if (val == 0) {
-        this.showUpdateUser = true;
+        this.$router.push({ name: 'EditAccount'})
       } else if (val == 1) {
         this.showUpdatePass = true;
       } else {

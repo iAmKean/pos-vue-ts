@@ -65,6 +65,11 @@ const routes = [
     component: () => import('../views/Members/MembersArchive.vue')
   },
   {
+    path: '/edit-account',
+    name: 'EditAccount',
+    component: () => import('../views/Members/EditAccount.vue')
+  },
+  {
     path: '/category',
     name: 'Category',
     component: () => import('../views/Category/Category.vue')
