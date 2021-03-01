@@ -51,9 +51,9 @@ export default {
           link: 'Members',
         },
         {
-          name: "Settings",
+          name: "Category",
           icon: "el-icon-s-tools",
-          link: 'Settings',
+          link: 'Category',
         },
       ],
     };

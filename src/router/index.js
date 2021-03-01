@@ -65,9 +65,9 @@ const routes = [
     component: () => import('../views/Members/MembersArchive.vue')
   },
   {
-    path: '/Settings',
-    name: 'Settings',
-    component: () => import('../views/Settings/Settings.vue')
+    path: '/category',
+    name: 'Category',
+    component: () => import('../views/Category/Category.vue')
   },
 ]
 

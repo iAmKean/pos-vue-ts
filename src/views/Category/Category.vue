@@ -24,10 +24,10 @@
 // @ is an alias to /src
 import Header from "@/components/common/Header.vue";
 import Aside from "@/components/common/Aside.vue";
-import Main from '@/components/settings/Main.vue'
+import Main from '@/components/category/Main.vue'
 
 export default {
-  name: "Settings",
+  name: "Category",
   components: {
     Header,
     Aside,
