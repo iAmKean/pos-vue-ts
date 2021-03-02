@@ -126,5 +126,35 @@ class StockData {
     }
   }
 
+  function countLowTotalModel($params) {
+    $query = "Select count(ID) from `tbl_model` where `AvailableItems` < 20 and `AvailableItems` <> 0 AND `tbl_model`.`isDelete`=1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["count"] = $row[0];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response[0];
+  }
+
+
+  function countOutTotalModel($params) {
+    $query = "Select count(ID) from `tbl_model` where `AvailableItems` = 0 AND `tbl_model`.`isDelete`=1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["count"] = $row[0];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response[0];
+  }
+
+  
 }
 ?>

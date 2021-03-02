@@ -30,7 +30,7 @@
                 <div class="right">
                   <el-tag type="success">No. of item(s): {{ numberItems }}</el-tag>
                   <el-tag type="warning">Low in stock(s): {{ numberLowStock }} <i class="el-icon-question"></i></el-tag>
-                  <el-tag type="danger">No available stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag>
+                  <!-- <el-tag type="danger">No available stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag> -->
                 </div>
               </div>
               <Table @updateData="updateData()"/>
@@ -134,7 +134,7 @@ export default {
     updateData() {
       this.countTotalModel();
       this.countLowTotalModel();
-      this.countOutTotalModel();
+      // this.countOutTotalModel();
     },
     async getModels() {
       let params = {
@@ -156,7 +156,8 @@ export default {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.countTotalModel();
     this.countLowTotalModel();
-    this.countOutTotalModel();
+    // this.countOutTotalModel();
+    this.getModels();
   }
 };
 </script>

@@ -19,6 +19,16 @@
         label="Operations"
         width="280">
         <template slot="header" slot-scope="scope">
+
+        <el-select v-model="brandValue" placeholder="select brand category" class="select-brand">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+
           <el-input
             v-model="search"
             size="mini"
@@ -59,6 +69,23 @@ export default {
       centerDialogVisible: false,
       userInfo: {},
       itemInfo: {},
+      options: [{
+        value: 'Option1',
+        label: 'Option1'
+      }, {
+        value: 'Option2',
+        label: 'Option2'
+      }, {
+        value: 'Option3',
+        label: 'Option3'
+      }, {
+        value: 'Option4',
+        label: 'Option4'
+      }, {
+        value: 'Option5',
+        label: 'Option5'
+      }],
+      brandValue: ''
     }
   },
   methods: {
@@ -164,5 +191,17 @@ export default {
 
   ::v-deep.el-table .high-stock td:nth-child(7){
     color: green;
+  }
+
+  ::v-deep.select-brand {
+    width: 100%;
+    margin-bottom: 5px;
+    .el-input__inner {
+      height: 28px;
+      line-height: 28px;
+    }
+    .el-input__icon {
+      line-height: 28px;
+    }
   }
 </style>

@@ -292,6 +292,7 @@ export default {
                   this.$refs.ruleFormStock.resetFields();
                   this.addStockLog();
                   this.getModels();
+                  this.$emit('updateData');
                   this.$message({
                     message: response.data.Message,
                     type: 'success'
@@ -387,6 +388,7 @@ export default {
                   this.$refs.ruleFormLessStock.resetFields();
                   this.ruleFormLessStock.LessStock = 0;
                   this.addLessStockLog();
+                  this.$emit('updateData');
                   this.getModels();
                   this.$message({
                     message: response.data.Message,
@@ -567,8 +569,8 @@ export default {
         margin-right: 30px;
       }
     }
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
+    ::v-deep input::-webkit-outer-spin-button,
+    ::v-deep input::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }

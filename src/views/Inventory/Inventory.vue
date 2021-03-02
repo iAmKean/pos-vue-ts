@@ -27,7 +27,7 @@
                   </el-row>
                 </div>
                 <div class="right">
-                  <el-tag type="warning">Low in stock(s): {{ numberLowStock }} <i class="el-icon-question"></i></el-tag>
+                  <el-tag type="warning">Low in available stock(s): {{ numberLowStock }} <i class="el-icon-question"></i></el-tag>
                   <el-tag type="danger">No available stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag>
                 </div>
               </div>
@@ -85,12 +85,12 @@ export default {
   methods: {
     countLowTotalModel() {
       let params = {
-        request: 7,
+        request: 9,
         data: {}
       };
 
       this.http
-        .post(this.api.ModelService, params)
+        .post(this.api.StockService, params)
         .then(response => {
           this.numberLowStock = response.data.count;
         })
@@ -100,12 +100,12 @@ export default {
     },
     countOutTotalModel() {
       let params = {
-        request: 8,
+        request: 10,
         data: {}
       };
 
       this.http
-        .post(this.api.ModelService, params)
+        .post(this.api.StockService, params)
         .then(response => {
           this.numberOutofStock = response.data.count;
         })
@@ -128,11 +128,18 @@ export default {
           console.log(error);
         });
     },
+    updateData() {
+      console.log("asda");
+      this.countLowTotalModel();
+      this.countOutTotalModel();
+      this.getModels();
+    }
   },
   created() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.countLowTotalModel();
     this.countOutTotalModel();
+    this.getModels();
   }
 };
 </script>

@@ -46,6 +46,16 @@ if ($params) {
         $data = new StockData($conn);
         echo json_encode($data->updateStockLess($params['data']));
         break;
+    case 9:
+      // delete data
+        $data = new StockData($conn);
+        echo json_encode($data->countLowTotalModel($params['data']));
+        break;
+    case 10:
+      // delete data
+        $data = new StockData($conn);
+        echo json_encode($data->countOutTotalModel($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }
