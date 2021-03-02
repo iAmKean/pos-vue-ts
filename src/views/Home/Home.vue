@@ -131,6 +131,11 @@ export default {
           console.log(error);
         });
     },
+    updateData() {
+      this.countTotalModel();
+      this.countLowTotalModel();
+      this.countOutTotalModel();
+    },
     async getModels() {
       let params = {
         request: 1,

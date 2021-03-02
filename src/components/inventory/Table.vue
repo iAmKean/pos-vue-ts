@@ -551,7 +551,7 @@ export default {
     .el-dialog__header {
       padding-top: 10px;
     }
-    .el-dialog__body {
+    ::v-deep.el-dialog__body {
       padding-top: 0px;
       padding-bottom: 10px;
 
@@ -567,16 +567,16 @@ export default {
         margin-right: 30px;
       }
     }
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
   }
   ::v-deep.el-table .warning-row {
     background: #F2F6FC;
@@ -594,7 +594,7 @@ input[type=number] {
     color: green;
   }
 
-  .add-con .el-form-item__content {
+  .add-con ::v-deep.el-form-item__content {
     display: flex;
 
     .el-button {

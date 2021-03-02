@@ -27,10 +27,22 @@
         <template slot-scope="scope">
           <el-button @click="handleClick(tableData[scope.$index])" icon="el-icon-info" type="success" size="small">Info</el-button>
           <el-button v-if="userInfo.Role != '3'" @click="update(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button>
-          <el-button v-if="userInfo.Role != '3'" @click="delete(tableData[scope.$index])" icon="el-icon-delete" type="danger" size="small">Remove</el-button>
+          <el-button v-if="userInfo.Role != '3'" @click="showRemoveItem(tableData[scope.$index])" icon="el-icon-delete" type="danger" size="small">Remove</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog
+      title="Remove Item"
+      :visible.sync="centerDialogVisible"
+      width="25%"
+      center>
+      <span>Warning, removing item will enter the archive, which may affect the stock list.</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="success" @click="centerDialogVisible = false">Cancel</el-button>
+        <el-button type="danger" @click="removeItem()">Confirm</el-button>
+      </span>
+    </el-dialog>
 
   </div>
 </template>
@@ -46,9 +58,46 @@ export default {
       tableData: [],
       centerDialogVisible: false,
       userInfo: {},
+      itemInfo: {},
     }
   },
   methods: {
+    showRemoveItem(item) {
+      this.itemInfo = item;
+      this.centerDialogVisible = true
+      console.log(this.itemInfo);
+    },
+    removeItem() {
+      let params = {
+        request: 10,
+        data: {
+          ID: this.itemInfo.ID,
+        }
+      };
+
+      this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          if (response.data.State == 1) {
+            this.centerDialogVisible = false;
+            this.userItem = {};
+            this.$emit('updateData');
+            this.getModels();
+            this.$message({
+              message: response.data.Message,
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: response.data.Message,
+              type: 'error'
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     update(item) {
       this.$router.push({ name: 'EditItem', params: { id: item.ID }});
     },

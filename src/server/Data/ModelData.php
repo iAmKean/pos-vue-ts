@@ -25,6 +25,7 @@ class ModelData {
               from ((`tbl_model`
               Inner Join `tbl_brand` ON `tbl_model`.`BrandCategory`=`tbl_brand`.`ID`)
               Inner Join `tbl_model_parts` ON `tbl_model`.`ModelPartCategory`=`tbl_model_parts`.`ID`)
+              Where `tbl_model`.`isDelete`=1
               Order by ID Asc";
 
     $result = $this->link->query($query);
@@ -67,7 +68,8 @@ class ModelData {
               from ((`tbl_model`
               Inner Join `tbl_brand` ON `tbl_model`.`BrandCategory`=`tbl_brand`.`ID`)
               Inner Join `tbl_model_parts` ON `tbl_model`.`ModelPartCategory`=`tbl_model_parts`.`ID`)
-              Where `tbl_model`.`ID`='$ID'";
+              Where `tbl_model`.`ID`='$ID'
+              And `tbl_model`.`isDelete`=1";
 
     $result = $this->link->query($query);
 
@@ -179,7 +181,7 @@ class ModelData {
   }
 
   function countTotalModel($params) {
-    $query = "Select count(ID) from `tbl_model`";
+    $query = "Select count(ID) from `tbl_model` Where `tbl_model`.`isDelete`=1";
 
     $result = $this->link->query($query);
 
@@ -193,7 +195,7 @@ class ModelData {
   }
 
   function countLowTotalModel($params) {
-    $query = "Select count(ID) from `tbl_model` where `AvailableItems` < 20 and `Stocks` <> 0";
+    $query = "Select count(ID) from `tbl_model` where `AvailableItems` < 20 and `Stocks` <> 0 AND `tbl_model`.`isDelete`=1";
 
     $result = $this->link->query($query);
 
@@ -207,7 +209,7 @@ class ModelData {
   }
 
   function countOutTotalModel($params) {
-    $query = "Select count(ID) from `tbl_model` where `AvailableItems` = 0";
+    $query = "Select count(ID) from `tbl_model` where `AvailableItems` = 0 AND `tbl_model`.`isDelete`=1";
 
     $result = $this->link->query($query);
 
@@ -219,6 +221,28 @@ class ModelData {
     }
     return $this->response[0];
   }
+
+  function removeItem($params) {
+    $ID = $params['ID'];
+
+    $query = "Update `tbl_model` SET
+              `tbl_model`.`isDelete`=2 
+              where `tbl_model`.`ID`=$ID";
+
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+  
+  }
+
 
 }
 ?>

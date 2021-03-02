@@ -51,6 +51,11 @@ if ($params) {
         $data = new ModelData($conn);
         echo json_encode($data->getModelByID($params['data']));
         break;
+    case 10:
+      // get model by id
+        $data = new ModelData($conn);
+        echo json_encode($data->removeItem($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }
