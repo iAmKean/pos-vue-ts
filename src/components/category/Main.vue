@@ -17,10 +17,10 @@
 export default {
   components: {
     BrandTable: resolve => {
-      require(["@/components/settings/BrandTable.vue"], resolve);
+      require(["@/components/category/BrandTable.vue"], resolve);
     },
     ModelPartTable: resolve => {
-      require(["@/components/settings/ModelPartTable.vue"], resolve);
+      require(["@/components/category/ModelPartTable.vue"], resolve);
     },
   },
   data() {

@@ -15,8 +15,15 @@
                 <div class="left">
                   <el-row>
                     <el-button type="success" v-if="userInfo.Role != '3'" @click="$router.push({ name: 'AddItem' })">New</el-button>
-                    <el-button type="warning" v-if="userInfo.Role != '3'" @click="goPage('MembersArchive')">Logs</el-button>
-                    <el-button type="primary">Print</el-button>
+                    <el-button type="warning" v-if="userInfo.Role != '3'" @click="goPage('ItemArchives')">Logs</el-button>
+                    <download-excel
+                      class="el-button export-btn"
+                      :data="json_data"
+                      :fields="json_fields"
+                      worksheet="My Worksheet"
+                      name="item-list.xls">
+                      <el-button type="primary" @click="getModels()">Export</el-button>
+                    </download-excel>
                   </el-row>
                 </div>
                 <div class="right">
@@ -35,6 +42,10 @@
 </template>
 
 <script>
+import Vue from "vue";
+import JsonExcel from "vue-json-excel";
+
+Vue.component("downloadExcel", JsonExcel);
 // @ is an alias to /src
 import Header from "@/components/common/Header.vue";
 import Aside from "@/components/common/Aside.vue";
@@ -53,6 +64,24 @@ export default {
       numberLowStock: '',
       numberOutofStock: '',
       userInfo: {},
+      json_fields: {
+        ID: "ID",
+        "Brand Category": "BrandCategory",
+        "Model Name": "ModelName",
+        "Model Part": "ModelPartCategory",
+        "Description": "Description",
+        "Price": "Price",
+        "Stocks": "Stocks",
+      },
+      json_data: [],
+      json_meta: [
+        [
+          {
+            key: "charset",
+            value: "utf-8",
+          },
+        ],
+      ],
     };
   },
   methods: {
@@ -96,6 +125,21 @@ export default {
         .post(this.api.ModelService, params)
         .then(response => {
           this.numberOutofStock = response.data.count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    async getModels() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+
+      await this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.json_data = response.data;
         })
         .catch(error => {
           console.log(error);
@@ -180,6 +224,10 @@ export default {
 
   .right .el-tag:not(:first-child) {
     cursor: pointer;
+  }
+
+  .export-btn {
+    padding: 0;
   }
 }
 </style>

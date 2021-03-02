@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import { tableProps } from "@/components/settings/tableProps_brand.js";
+import { tableProps } from "@/components/category/tableProps_brand.js";
 
 export default {
   data() {

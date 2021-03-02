@@ -16,7 +16,14 @@
                   <el-row>
                     <!-- <el-button type="success">New</el-button> -->
                     <el-button v-if="userInfo.Role != '3'" type="warning">Logs</el-button>
-                    <el-button type="primary">Print</el-button>
+                    <download-excel
+                      class="el-button export-btn"
+                      :data="json_data"
+                      :fields="json_fields"
+                      worksheet="My Worksheet"
+                      name="stock-list.xls">
+                      <el-button type="primary" @click="getModels()">Export</el-button>
+                    </download-excel>
                   </el-row>
                 </div>
                 <div class="right">
@@ -34,6 +41,10 @@
 </template>
 
 <script>
+import Vue from "vue";
+import JsonExcel from "vue-json-excel";
+
+Vue.component("downloadExcel", JsonExcel);
 // @ is an alias to /src
 import Header from "@/components/common/Header.vue";
 import Aside from "@/components/common/Aside.vue";
@@ -51,6 +62,24 @@ export default {
       numberLowStock: '',
       numberOutofStock: '',
       userInfo: {},
+      json_fields: {
+        ID: "ID",
+        "Brand Category": "BrandCategory",
+        "Model Name": "ModelName",
+        "Model Part": "ModelPartCategory",
+        "Total Stocks": "Stocks",
+        "Sold Stocks": "AvailableItems",
+        "Stocks": "SoldItems",
+      },
+      json_data: [],
+      json_meta: [
+        [
+          {
+            key: "charset",
+            value: "utf-8",
+          },
+        ],
+      ],
     };
   },
   methods: {
@@ -83,7 +112,22 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    },
+    getModels() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.StockService, params)
+        .then(response => {
+          this.json_data = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   created() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -162,6 +206,9 @@ export default {
 
   .right .el-tag {
     cursor: pointer;
+  }
+  .export-btn {
+    padding: 0;
   }
 }
 </style>

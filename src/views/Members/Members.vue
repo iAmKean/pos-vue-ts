@@ -16,7 +16,15 @@
                   <el-row>
                     <el-button v-if="userInfo.Role != '3'" type="success" @click="goPage('AddMember')">New</el-button>
                     <el-button v-if="userInfo.Role != '3'" type="warning" @click="goPage('MembersArchive')">Archives</el-button>
-                    <el-button v-if="userInfo.Role != '3'" type="primary">Print</el-button>
+                    <download-excel
+                      v-if="userInfo.Role != '3'"
+                      class="el-button export-btn"
+                      :data="json_data"
+                      :fields="json_fields"
+                      worksheet="My Worksheet"
+                      name="member-list.xls">
+                      <el-button type="primary" @click="getUsers()">Export</el-button>
+                    </download-excel>
                   </el-row>
                 </div>
                 <div class="right">
@@ -34,6 +42,11 @@
 </template>
 
 <script>
+import Vue from "vue";
+import JsonExcel from "vue-json-excel";
+
+Vue.component("downloadExcel", JsonExcel);
+
 // @ is an alias to /src
 import Header from "@/components/common/Header.vue";
 import Aside from "@/components/common/Aside.vue";
@@ -51,6 +64,30 @@ export default {
       activeUserCount: '',
       userCount: '',
       userInfo: {},
+      json_fields: {
+        "ID": "ID",
+        "AccountID": "AccountID",
+        "Account Name": "AccountName",
+        "Last Name": "LastName",
+        "First Name": "FirstName",
+        "Middle Name": "MiddleName",
+        "Extension Name": "ExtName",
+        "Address": "Address",
+        "Phone": "Phone",
+        "Status": "Status",
+        "Account Role": "Role",
+        "Added By": "AddedBy",
+        "Date Added": "CreateTime"
+      },
+      json_data: [],
+      json_meta: [
+        [
+          {
+            key: "charset",
+            value: "utf-8",
+          },
+        ],
+      ],
     };
   },
   methods: {
@@ -91,6 +128,21 @@ export default {
     goPage(url) {
       this.$router.push({ name: url });
     },
+    getUsers() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.UserService, params)
+        .then(response => {
+          this.json_data = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   },
   created() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -143,6 +195,9 @@ export default {
 
   .el-tabs--border-card > .el-tabs__content {
     padding: 0px 10px 10px;
+  }
+  .export-btn {
+    padding: 0;
   }
 }
 </style>
