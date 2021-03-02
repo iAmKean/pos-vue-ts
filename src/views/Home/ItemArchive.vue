@@ -13,24 +13,13 @@
             <el-main>
               <div class="table-options">
                 <div class="left">
-                  <el-row>
-                    <el-button type="success" v-if="userInfo.Role != '3'" @click="$router.push({ name: 'AddItem' })">New</el-button>
-                    <el-button v-if="userInfo.Role != '3'" type="warning" @click="goPage('ItemArchive')">Archives</el-button>
-                    <!-- <el-button type="warning" v-if="userInfo.Role != '3'" @click="goPage('ItemArchives')">Logs</el-button> -->
-                    <download-excel
-                      class="el-button export-btn"
-                      :data="json_data"
-                      :fields="json_fields"
-                      worksheet="My Worksheet"
-                      name="item-list.xls">
-                      <el-button type="primary" @click="getModels()">Export</el-button>
-                    </download-excel>
-                  </el-row>
+                    <el-breadcrumb separator="/">
+                      <el-breadcrumb-item :to="{ name: 'Home' }">Items</el-breadcrumb-item>
+                      <el-breadcrumb-item>Archives</el-breadcrumb-item>
+                    </el-breadcrumb>
                 </div>
                 <div class="right">
-                  <el-tag type="success">No. of item(s): {{ numberItems }}</el-tag>
-                  <el-tag type="warning">Low in stock(s): {{ numberLowStock }} <i class="el-icon-question"></i></el-tag>
-                  <el-tag type="danger">No available stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag>
+                  
                 </div>
               </div>
               <Table @updateData="updateData()"/>
@@ -50,7 +39,7 @@ Vue.component("downloadExcel", JsonExcel);
 // @ is an alias to /src
 import Header from "@/components/common/Header.vue";
 import Aside from "@/components/common/Aside.vue";
-import Table from '@/components/home/Table.vue'
+import Table from '@/components/home/TableArchive.vue'
 
 export default {
   name: "ItemArchive",
@@ -192,6 +181,10 @@ export default {
     text-align: left;
     border-bottom: 1px solid #E4E7ED;
     display: flex;
+    .el-breadcrumb {
+    line-height: 60px;
+
+    }
     button {
       height: 30px;
       padding: 0px 15px;

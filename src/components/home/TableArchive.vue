@@ -25,22 +25,20 @@
             placeholder="Type to search"/>
         </template>
         <template slot-scope="scope">
-          <el-button @click="handleClick(tableData[scope.$index])" icon="el-icon-info" type="success" size="small">Info</el-button>
-          <el-button v-if="userInfo.Role != '3'" @click="update(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button>
-          <el-button v-if="userInfo.Role != '3'" @click="showRemoveItem(tableData[scope.$index])" icon="el-icon-delete" type="danger" size="small">Remove</el-button>
+          <el-button @click="showRemoveItem(tableData[scope.$index])" icon="el-icon-refresh-left" type="success" size="small">Restore</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-dialog
-      title="Remove Item"
+      title="Restore Item"
       :visible.sync="centerDialogVisible"
       width="25%"
       center>
-      <span>Warning, removing item will enter the archive, which may affect the stock list.</span>
+      <span>Restoring item will affect the stock list.</span>
       <span slot="footer" class="dialog-footer">
-        <el-button type="success" @click="centerDialogVisible = false">Cancel</el-button>
-        <el-button type="danger" @click="removeItem()">Confirm</el-button>
+        <el-button type="danger" @click="centerDialogVisible = false">Cancel</el-button>
+        <el-button type="success" @click="restoreItem()">Confirm</el-button>
       </span>
     </el-dialog>
 
@@ -65,11 +63,10 @@ export default {
     showRemoveItem(item) {
       this.itemInfo = item;
       this.centerDialogVisible = true
-      console.log(this.itemInfo);
     },
-    removeItem() {
+    restoreItem() {
       let params = {
-        request: 10,
+        request: 12,
         data: {
           ID: this.itemInfo.ID,
         }
@@ -114,7 +111,7 @@ export default {
     },
     getModels() {
       let params = {
-        request: 1,
+        request: 11,
         data: {}
       };
 

@@ -56,6 +56,16 @@ if ($params) {
         $data = new ModelData($conn);
         echo json_encode($data->removeItem($params['data']));
         break;
+    case 11:
+      // get model by id
+        $data = new ModelData($conn);
+        echo json_encode($data->deletedModel($params['data']));
+        break;
+    case 12:
+      // get model by id
+        $data = new ModelData($conn);
+        echo json_encode($data->restoreItem($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }
