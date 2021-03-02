@@ -17,7 +17,7 @@
       :disable-transitions="true"
         fixed="right"
         label="Operations"
-        width="180">
+        width="260">
         <template slot="header" slot-scope="scope">
           <el-input
             v-model="search"
@@ -25,8 +25,9 @@
             placeholder="Type to search"/>
         </template>
         <template slot-scope="scope">
-          <el-button @click="handleClickAdd(tableData[scope.$index])" type="text" size="small">Add</el-button>
-          <el-button @click="handleClickLess(tableData[scope.$index])" type="text" size="small">Less</el-button>
+          <el-button @click="handleClickAdd(tableData[scope.$index])" icon="el-icon-circle-plus-outline" type="success" size="small">Add</el-button>
+          <el-button @click="handleClickLess(tableData[scope.$index])" icon="el-icon-remove-outline" type="danger" size="small">Less</el-button>
+          <el-button v-if="userInfo.Role == '1'" @click="handleClickEdit(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -545,7 +546,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .popup-c {
     .el-dialog__header {
       padding-top: 10px;
@@ -577,19 +578,19 @@ input[type=number] {
   -moz-appearance: textfield;
 }
   }
-  .el-table .warning-row {
+  ::v-deep.el-table .warning-row {
     background: #F2F6FC;
   }
 
-  .el-table .success-row {
+  ::v-deep.el-table .success-row {
     background: #f0f9eb;
   }
 
-  .el-table .low-stock td:nth-child(6){
+  ::v-deep.el-table .low-stock td:nth-child(6){
     color: red;
   }
 
-  .el-table .high-stock td:nth-child(6){
+  ::v-deep.el-table .high-stock td:nth-child(6){
     color: green;
   }
 

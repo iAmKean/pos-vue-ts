@@ -15,7 +15,7 @@
       <el-table-column
         fixed="right"
         label="Operations"
-        width="180">
+        width="280">
         <template slot="header" slot-scope="scope">
           <el-input
             v-model="search"
@@ -23,9 +23,9 @@
             placeholder="Type to search"/>
         </template>
         <template slot-scope="scope" v-if="tableData[scope.$index].Role != 'Owner'">
-          <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
-          <el-button v-if="userInfo.Role != '3'" @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
-          <el-button v-if="userInfo.Role == '1'" type="text" size="small" @click="showRemoveMods(tableData[scope.$index])">Remove</el-button>
+          <el-button @click="handleClick(tableData[scope.$index])" icon="el-icon-info" type="success" size="small">Info</el-button>
+          <el-button v-if="userInfo.Role != '3'" @click="update(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button>
+          <el-button v-if="userInfo.Role == '1'" icon="el-icon-delete" type="danger" size="small" @click="showRemoveMods(tableData[scope.$index])">Remove</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -101,10 +101,12 @@ export default {
       this.$router.push({ name: 'MemberDetail', params: { accountid: item.AccountID }});
     },
     tableRowClassName({row, rowIndex}) {
+      let Status = this.tableData[rowIndex].Status;
+
       if (rowIndex % 2 == 0) {
-        return 'warning-row';
+        return Status == 'Active' ? 'Active warning-row' : 'Inactive warning-row';
       }
-      return '';
+      return Status == 'Inactive' ? 'Inactive' : 'Active';
     },
     getUsers() {
       let params = {
@@ -142,12 +144,20 @@ export default {
 }
 </script>
 
-<style>
-  .el-table .warning-row {
+<style scoped>
+  ::v-deep.el-table .warning-row {
     background: #F2F6FC;
   }
 
-  .el-table .success-row {
+  ::v-deep.el-table .success-row {
     background: #f0f9eb;
+  }
+
+  ::v-deep.el-table .Inactive td:nth-child(4){
+    color: red;
+  }
+
+  ::v-deep.el-table .Active td:nth-child(4){
+    color: green;
   }
 </style>

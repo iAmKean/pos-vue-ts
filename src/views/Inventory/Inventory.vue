@@ -1,5 +1,5 @@
 <template>
-  <div class="home admin-theme-main">
+  <div class="inventory admin-theme-main">
     <div class="home-wrapper">
       <el-container>
         <el-header>
@@ -15,7 +15,7 @@
                 <div class="left">
                   <el-row>
                     <!-- <el-button type="success">New</el-button> -->
-                    <el-button v-if="userInfo.Role != '3'" type="warning">Logs</el-button>
+                    <!-- <el-button v-if="userInfo.Role != '3'" type="warning">Logs</el-button> -->
                     <download-excel
                       class="el-button export-btn"
                       :data="json_data"
@@ -137,7 +137,7 @@ export default {
 };
 </script>
 <style lang="less">
-.home {
+.inventory {
   .home-wrapper {
     height: 100vh;
     min-width: 1200px;

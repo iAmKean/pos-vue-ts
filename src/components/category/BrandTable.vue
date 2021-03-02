@@ -33,7 +33,7 @@
             placeholder="Type to search"/>
         </template>
         <template slot-scope="scope" v-if="tableData[scope.$index].Role != 'Owner'">
-          <el-button @click="showUpdate(tableData[scope.$index])" type="text" size="small">Edit</el-button>
+          <el-button @click="showUpdate(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,7 +80,7 @@
     width="400px"
   >
     <template #title>
-      Update Brand
+      Edit Brand
     </template>
     <div class="add-brand-content">
         <el-form

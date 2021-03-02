@@ -44,7 +44,7 @@
                         <el-input type="password" v-model="ruleForm.ConfirmAccountPassword" autocomplete="off"></el-input>
                       </el-form-item>
                       <div class="button-con">
-                          <el-button type="success" @click="save()">Update</el-button>
+                          <el-button type="success" @click="save()">Save</el-button>
                           <el-button type="warning" @click="$router.back()">Back</el-button>
                       </div>
                     </el-form>

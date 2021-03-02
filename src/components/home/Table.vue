@@ -17,7 +17,7 @@
       :disable-transitions="true"
         fixed="right"
         label="Operations"
-        width="180">
+        width="280">
         <template slot="header" slot-scope="scope">
           <el-input
             v-model="search"
@@ -25,8 +25,9 @@
             placeholder="Type to search"/>
         </template>
         <template slot-scope="scope">
-          <el-button @click="handleClick(tableData[scope.$index])" type="text" size="small">Detail</el-button>
-          <el-button v-if="userInfo.Role != '3'" @click="update(tableData[scope.$index])" type="text" size="small">Edit</el-button>
+          <el-button @click="handleClick(tableData[scope.$index])" icon="el-icon-info" type="success" size="small">Info</el-button>
+          <el-button v-if="userInfo.Role != '3'" @click="update(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button>
+          <el-button v-if="userInfo.Role != '3'" @click="delete(tableData[scope.$index])" icon="el-icon-delete" type="danger" size="small">Remove</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -99,20 +100,20 @@ export default {
 }
 </script>
 
-<style lang="less">
-  .el-table .warning-row {
+<style lang="less" scoped>
+  ::v-deep.el-table .warning-row {
     background: #F2F6FC;
   }
 
-  .el-table .success-row {
+  ::v-deep.el-table .success-row {
     background: #f0f9eb;
   }
 
-  .el-table .low-stock td:nth-child(7){
+  ::v-deep.el-table .low-stock td:nth-child(7){
     color: red;
   }
 
-  .el-table .high-stock td:nth-child(7){
+  ::v-deep.el-table .high-stock td:nth-child(7){
     color: green;
   }
 </style>

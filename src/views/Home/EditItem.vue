@@ -82,7 +82,7 @@
                       </el-form-item>
 
                       <div class="button-con">
-                          <el-button type="success" @click="update()">Update</el-button>
+                          <el-button type="success" @click="update()">Edit</el-button>
                           <el-button type="warning" @click="$router.back()">Back</el-button>
                       </div>
                     </el-form>

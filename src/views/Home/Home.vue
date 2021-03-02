@@ -15,7 +15,8 @@
                 <div class="left">
                   <el-row>
                     <el-button type="success" v-if="userInfo.Role != '3'" @click="$router.push({ name: 'AddItem' })">New</el-button>
-                    <el-button type="warning" v-if="userInfo.Role != '3'" @click="goPage('ItemArchives')">Logs</el-button>
+                    <el-button v-if="userInfo.Role != '3'" type="warning" @click="goPage('ItemArchive')">Archives</el-button>
+                    <!-- <el-button type="warning" v-if="userInfo.Role != '3'" @click="goPage('ItemArchives')">Logs</el-button> -->
                     <download-excel
                       class="el-button export-btn"
                       :data="json_data"

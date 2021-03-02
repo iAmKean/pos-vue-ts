@@ -33,7 +33,7 @@
             placeholder="Type to search"/>
         </template>
         <template slot-scope="scope">
-          <el-button @click="showUpdate(tableData[scope.$index])" type="text" size="small">Edit</el-button>
+          <el-button @click="showUpdate(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,7 +80,7 @@
     width="450px"
   >
     <template #title>
-      Update Model Part
+      Edit Model Part
     </template>
     <div class="add-brand-content">
         <el-form
