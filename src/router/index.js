@@ -89,6 +89,11 @@ const routes = [
     name: 'LogManager',
     component: () => import('../views/LogManager/LogManager.vue')
   },
+  {
+    path: '/backup-database',
+    name: 'BackupDatabase',
+    component: () => import('../views/BackupDatabase/BackupDatabase.vue')
+  },
 ]
 
 const router = new VueRouter({

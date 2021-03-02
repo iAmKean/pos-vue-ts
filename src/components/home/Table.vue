@@ -20,7 +20,7 @@
         width="280">
         <template slot="header" slot-scope="scope">
 
-        <el-select v-model="brandValue" placeholder="select brand category" class="select-brand">
+        <el-select v-model="brandValue" placeholder="Select brand category" class="select-brand">
           <el-option
             v-for="item in options"
             :key="item.value"
