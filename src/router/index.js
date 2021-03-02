@@ -30,6 +30,11 @@ const routes = [
     component: () => import('../views/Home/EditItem.vue')
   },
   {
+    path: '/item/item-archive',
+    name: 'ItemArchive',
+    component: () => import('../views/Home/ItemArchive.vue')
+  },
+  {
     path: '/stocks',
     name: 'Inventory',
     component: () => import('../views/Inventory/Inventory.vue')
