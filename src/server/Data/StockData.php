@@ -21,8 +21,8 @@ class StockData {
               from ((`tbl_model`
               Inner Join `tbl_brand` ON `tbl_model`.`BrandCategory`=`tbl_brand`.`ID`)
               Inner Join `tbl_model_parts` ON `tbl_model`.`ModelPartCategory`=`tbl_model_parts`.`ID`)
+              Where `tbl_model`.`isDelete`=1
               Order by ID Asc";
-
     $result = $this->link->query($query);
 
     while ($row = mysqli_fetch_row($result)) {
