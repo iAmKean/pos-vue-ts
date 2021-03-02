@@ -5,4 +5,5 @@ export const api = {
   BrandServices: "/services/BrandServices.php",
   ModelService: "/services/ModelService.php",
   StockService: "/services/StockService.php",
+  BackupService: "/services/BackupService.php",
 };

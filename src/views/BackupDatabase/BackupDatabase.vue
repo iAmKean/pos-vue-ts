@@ -69,7 +69,39 @@ export default {
       },
     };
   },
-  methods: {}
+  methods: {
+    backup() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+            let params = {
+              request: 1,
+              data: {
+                DatabaseName: this.ruleForm.DatabaseName,
+              }
+            };
+
+            this.http
+              .post(this.api.BackupService, params)
+              .then(response => {
+                  this.$message({
+                    type: "success",
+                    message: "Database successfully backup"
+                  });
+                  this.$refs.ruleForm.resetFields();
+              })
+              .catch(error => {
+                this.$message({
+                  type: "danger",
+                  message: "Connection Error!"
+                });
+                console.log(error);
+              });
+        } else {
+          return false;
+        }
+      });
+    },
+  }
 };
 </script>
 <style lang="less">

@@ -10,10 +10,11 @@ class BackupData {
   }
 
   function backupDatabase($params) {
+      $custom_dbname = $params['DatabaseName'];
       // Get All Table Names From the Database
       $tables = array();
       $sql = "SHOW TABLES";
-      $result = mysqli_query($conn, $sql);
+      $result = $this->link->query($sql);
 
       while ($row = mysqli_fetch_row($result)) {
           $tables[] = $row[0];
@@ -24,14 +25,14 @@ class BackupData {
           
           // Prepare SQLscript for creating table structure
           $query = "SHOW CREATE TABLE $table";
-          $result = mysqli_query($conn, $query);
+          $result = $this->link->query($query);
           $row = mysqli_fetch_row($result);
           
           $sqlScript .= "\n\n" . $row[1] . ";\n\n";
           
           
           $query = "SELECT * FROM $table";
-          $result = mysqli_query($conn, $query);
+          $result = $this->link->query($query);
           
           $columnCount = mysqli_num_fields($result);
           
@@ -61,7 +62,7 @@ class BackupData {
       if(!empty($sqlScript))
       {
           // Save the SQL script to a backup file
-          $backup_file_name = $database_name . '_backup_' . time() . '.sql';
+          $backup_file_name = $database_name . 'db-backup/'.$custom_dbname.'_backup_' . time() . '.sql';
           $fileHandler = fopen($backup_file_name, 'w+');
           $number_of_lines = fwrite($fileHandler, $sqlScript);
           fclose($fileHandler); 
