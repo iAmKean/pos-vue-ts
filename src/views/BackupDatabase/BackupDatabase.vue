@@ -20,6 +20,10 @@
                       label-position="left"
                       label-width="150px"
                       class="back-up-form">
+                      <p style="text-align:left;">The backup file will be saved automatically in this folder `db-backup`.</p>
+                      <br>
+                      <p style="text-align:left;">Path: xampp\htdocs\pos-vue-server\services\db-backup</p>
+                      <br>
                       <el-form-item label="Database Name:" class="pass-con" prop="DatabaseName">
                         <el-input
                           type="text"
@@ -104,11 +108,11 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .home {
 
   .back-up-form {
-    width: 40%;
+    width: 50%;
     margin: auto;
 
     .button-con {
