@@ -30,7 +30,7 @@ const routes = [
     component: () => import('../views/Home/EditItem.vue')
   },
   {
-    path: '/inventory',
+    path: '/stocks',
     name: 'Inventory',
     component: () => import('../views/Inventory/Inventory.vue')
   },
@@ -78,6 +78,11 @@ const routes = [
     path: '/category',
     name: 'Category',
     component: () => import('../views/Category/Category.vue')
+  },
+  {
+    path: '/log-manager',
+    name: 'LogManager',
+    component: () => import('../views/LogManager/LogManager.vue')
   },
 ]
 

@@ -13,7 +13,7 @@
         v-for="(tabItem, tabKey) in tabItems"
         :key="tabKey"
         :index="`${tabKey}`"
-        @click="selectTabContent(tabItem.link)"
+        @click="selectTabContent(tabItem.link, tabKey)"
       >
         <i :class="tabItem.icon"></i>
         <span>{{ tabItem.name }}</span>
@@ -46,19 +46,34 @@ export default {
           link: 'Sales',
         },
         {
-          name: "Accounts",
-          icon: "el-icon-user-solid",
-          link: 'Members',
-        },
-        {
           name: "Category",
           icon: "el-icon-s-operation",
           link: 'Category',
         },
         {
           name: "Report",
-          icon: "el-icon-notebook-1",
+          icon: "el-icon-date",
           link: 'Report',
+        },
+        {
+          name: "Accounts",
+          icon: "el-icon-user-solid",
+          link: 'Members',
+        },
+        {
+          name: "Log Manager",
+          icon: "el-icon-notebook-2",
+          link: 'LogManager',
+        },
+        {
+          name: "Backup Database",
+          icon: "el-icon-coin",
+          link: 'BackupDatabase',
+        },
+        {
+          name: "Exit",
+          icon: "el-icon-arrow-left",
+          link: '',
         },
       ],
     };
@@ -76,11 +91,18 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    selectTabContent(url) {
-      if (this.$route.name == url) return;
-      else {
-        this.$router.push({ name: url ,})
-      } 
+    selectTabContent(url, index) {
+      if (!url) {
+        if (this.tabItems[index].name == 'Exit') {
+          localStorage.removeItem('userInfo');
+          this.$router.push({ name: 'Login' })
+        }
+      } else {
+        if (this.$route.name == url) return;
+        else {
+          this.$router.push({ name: url ,})
+        }
+      }
     }
   },
   created() {}

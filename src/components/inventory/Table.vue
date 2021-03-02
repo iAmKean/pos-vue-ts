@@ -266,7 +266,6 @@ export default {
           this.ruleFormStock.newAvailableItems = this.ruleFormStock.newAvailableItems + Number(this.ruleFormStock.newStock);
           let validateChar = ['.', 'e', '-', '+'];
           this.ruleFormStock.newStock = this.ruleFormStock.newStock.toString();
-          console.log(this.ruleFormStock.newStock);
           if (this.ruleFormStock.newStock.includes(validateChar[0])
               || this.ruleFormStock.newStock.includes(validateChar[1])
               || this.ruleFormStock.newStock.includes(validateChar[2])
