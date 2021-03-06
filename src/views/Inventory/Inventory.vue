@@ -21,7 +21,7 @@
                       :data="json_data"
                       :fields="json_fields"
                       worksheet="My Worksheet"
-                      :name="`item-list-${excelName}.xls`">
+                      :name="`stock-list-${excelName}.xls`">
                       <el-button type="primary" @click="getModels()">Export</el-button>
                     </download-excel>
                   </el-row>
@@ -178,7 +178,7 @@ export default {
       };
 
       this.http
-        .post(this.api.ModelService, params)
+        .post(this.api.StockService, params)
         .then(response => {
           this.json_data = response.data;
         })
