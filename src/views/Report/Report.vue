@@ -7,7 +7,7 @@
         </el-header>
         <el-container>
           <el-aside width="200px">
-            <Aside :activeTab="'6'" />
+            <Aside :activeTab="'4'" />
           </el-aside>
           <el-container>
             <el-main >
@@ -27,7 +27,7 @@ import Aside from "@/components/common/Aside.vue";
 import Main from '@/components/sales/Main.vue'
 
 export default {
-  name: "LogManager",
+  name: "Report",
   components: {
     Header,
     Aside,

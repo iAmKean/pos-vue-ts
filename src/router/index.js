@@ -94,6 +94,16 @@ const routes = [
     name: 'BackupDatabase',
     component: () => import('../views/BackupDatabase/BackupDatabase.vue')
   },
+  {
+    path: '/report',
+    name: 'Report',
+    component: () => import('../views/Report/Report.vue')
+  },
+  {
+    path: '/log-manager',
+    name: 'LogManager',
+    component: () => import('../views/LogManager/LogManager.vue')
+  },
 ]
 
 const router = new VueRouter({
