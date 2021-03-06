@@ -20,12 +20,15 @@
         width="280">
         <template slot="header" slot-scope="scope">
 
-        <el-select v-model="brandValue" placeholder="Select brand category" class="select-brand">
+        <el-select
+          v-model="brandValue"
+          @change="selectCategory"
+          placeholder="Select brand category" class="select-brand">
           <el-option
             v-for="item in options"
             :key="item.value"
             :label="item.label"
-            :value="item.value">
+            :value="item.id">
           </el-option>
         </el-select>
 
@@ -69,22 +72,7 @@ export default {
       centerDialogVisible: false,
       userInfo: {},
       itemInfo: {},
-      options: [{
-        value: 'Option1',
-        label: 'Option1'
-      }, {
-        value: 'Option2',
-        label: 'Option2'
-      }, {
-        value: 'Option3',
-        label: 'Option3'
-      }, {
-        value: 'Option4',
-        label: 'Option4'
-      }, {
-        value: 'Option5',
-        label: 'Option5'
-      }],
+      options: [],
       brandValue: ''
     }
   },
@@ -153,7 +141,46 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    },
+    getModelsByBrandID(catID) {
+      let params = {
+        request: 2,
+        data: {
+          BrandCategory: catID
+        }
+      };
+
+      this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    selectCategory(catID) {
+      this.getModelsByBrandID(catID);
+      this.$emit('getModelsByBrandID', { catID: catID, brandValue: this.options[Number(this.brandValue - 1)].value })
+    },
+    getCategoryList() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.BrandServices, params)
+        .then(response => {
+          let newData = response.data;
+          newData.map((val) => {
+            this.options.push({id: val.ID, value: val.Brand, label: val.Brand })
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   computed: {
     searchTable: function() {
@@ -172,6 +199,7 @@ export default {
   created() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getModels();
+    this.getCategoryList();
   }
 }
 </script>

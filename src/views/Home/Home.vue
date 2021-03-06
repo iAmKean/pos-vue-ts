@@ -22,7 +22,7 @@
                       :data="json_data"
                       :fields="json_fields"
                       worksheet="My Worksheet"
-                      name="item-list.xls">
+                      :name="`item-list-${excelName}.xls`">
                       <el-button type="primary" @click="getModels()">Export</el-button>
                     </download-excel>
                   </el-row>
@@ -33,7 +33,7 @@
                   <!-- <el-tag type="danger">No available stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag> -->
                 </div>
               </div>
-              <Table @updateData="updateData()"/>
+              <Table @updateData="updateData()" @getModelsByBrandID="getModelsByBrandID($event)"/>
             </el-main>
           </el-container>
         </el-container>
@@ -83,6 +83,7 @@ export default {
           },
         ],
       ],
+      excelName: 'all',
     };
   },
   methods: {
@@ -143,6 +144,24 @@ export default {
       };
 
       await this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.json_data = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getModelsByBrandID(val) {
+      this.excelName = val.brandValue;
+      let params = {
+        request: 2,
+        data: {
+          BrandCategory: val.catID
+        }
+      };
+
+      this.http
         .post(this.api.ModelService, params)
         .then(response => {
           this.json_data = response.data;

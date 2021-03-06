@@ -14,7 +14,7 @@ if ($params) {
     case 2:
     // select by
       $data = new ModelData($conn);
-      echo json_encode($data->getSampleBy($params['data']));
+      echo json_encode($data->getModelsByBrandID($params['data']));
       break;
     case 3:
     // inserta data

@@ -99,11 +99,6 @@ const routes = [
     name: 'Report',
     component: () => import('../views/Report/Report.vue')
   },
-  {
-    path: '/log-manager',
-    name: 'LogManager',
-    component: () => import('../views/LogManager/LogManager.vue')
-  },
 ]
 
 const router = new VueRouter({
