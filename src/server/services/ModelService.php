@@ -66,6 +66,16 @@ if ($params) {
         $data = new ModelData($conn);
         echo json_encode($data->restoreItem($params['data']));
         break;
+    case 13:
+      // count model by brand category
+      $data = new ModelData($conn);
+      echo json_encode($data->countTotalModelByBrandCat($params['data']));
+      break;
+    case 14:
+      // count model low by brand category
+        $data = new ModelData($conn);
+        echo json_encode($data->countLowTotalModelByBrandCat($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

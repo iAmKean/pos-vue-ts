@@ -102,10 +102,44 @@ export default {
           console.log(error);
         });
     },
+    countTotalModelByBrandCat(val) {
+      let params = {
+        request: 13,
+        data: {
+          BrandCategory: val,
+        }
+      };
+
+      this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.numberItems = response.data.count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     countLowTotalModel() {
       let params = {
         request: 7,
         data: {}
+      };
+
+      this.http
+        .post(this.api.ModelService, params)
+        .then(response => {
+          this.numberLowStock = response.data.count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    countLowTotalModelByBrandCat(val) {
+      let params = {
+        request: 14,
+        data: {
+          BrandCategory: val,
+        }
       };
 
       this.http
@@ -153,6 +187,8 @@ export default {
         });
     },
     getModelsByBrandID(val) {
+      this.countTotalModelByBrandCat(val.catID);
+      this.countLowTotalModelByBrandCat(val.catID);
       this.excelName = val.brandValue;
       let params = {
         request: 2,

@@ -278,8 +278,45 @@ class ModelData {
     return $this->response[0];
   }
 
+  function countTotalModelByBrandCat($params) {
+    $BrandCategory = $params['BrandCategory'];
+
+    $query = "Select count(ID) from `tbl_model` 
+              Where `tbl_model`.`isDelete`=1
+              AND `tbl_model`.`BrandCategory`='$BrandCategory'";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["count"] = $row[0];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response[0];
+  }
+
   function countLowTotalModel($params) {
     $query = "Select count(ID) from `tbl_model` where `Stocks` < 20 and `Stocks` <> 0 AND `tbl_model`.`isDelete`=1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["count"] = $row[0];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response[0];
+  }
+
+  function countLowTotalModelByBrandCat($params) {
+    $BrandCategory = $params['BrandCategory'];
+
+    $query = "Select count(ID) from `tbl_model` 
+              where `Stocks` < 20 and `Stocks` <> 0 
+              AND `tbl_model`.`isDelete`=1
+              AND `tbl_model`.`BrandCategory`='$BrandCategory'";
 
     $result = $this->link->query($query);
 
