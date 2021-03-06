@@ -17,8 +17,21 @@
       :disable-transitions="true"
         fixed="right"
         label="Operations"
-        width="260">
+        width="200">
         <template slot="header" slot-scope="scope">
+
+        <el-select
+          v-model="brandValue"
+          @change="selectCategory"
+          placeholder="Select brand category" class="select-brand">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.id">
+          </el-option>
+        </el-select>
+
           <el-input
             v-model="search"
             size="mini"
@@ -27,7 +40,7 @@
         <template slot-scope="scope">
           <el-button @click="handleClickAdd(tableData[scope.$index])" icon="el-icon-circle-plus-outline" type="success" size="small">Add</el-button>
           <el-button @click="handleClickLess(tableData[scope.$index])" icon="el-icon-remove-outline" type="danger" size="small">Less</el-button>
-          <el-button v-if="userInfo.Role == '1'" @click="handleClickEdit(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button>
+          <!-- <el-button v-if="userInfo.Role == '1'" @click="handleClickEdit(tableData[scope.$index])" icon="el-icon-edit" type="warning" size="small">Edit</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -204,6 +217,8 @@ export default {
       }
     };
     return {
+      brandValue: 'All',
+      options: [],
       userInfo: {},
       search: '',
       tableProps: tableProps,
@@ -453,6 +468,23 @@ export default {
       }
       return stockNum < Number(20) ? 'low-stock' : 'high-stock';
     },
+    getModelsByBrandID(catID) {
+      let params = {
+        request: 2,
+        data: {
+          BrandCategory: catID
+        }
+      };
+
+      this.http
+        .post(this.api.StockService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getModels() {
       let params = {
         request: 1,
@@ -467,6 +499,36 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    getCategoryList() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+
+      this.http
+        .post(this.api.BrandServices, params)
+        .then(response => {
+          let newData = response.data;
+          this.options.push({id: '0', value: 'All', label: 'All' })
+          newData.map((val) => {
+            this.options.push({id: val.ID, value: val.Brand, label: val.Brand })
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    selectCategory(catID) {
+      
+      this.brandValue = this.options[Number(catID)].value;
+      if (catID == '0' || catID == 0) {
+        this.getModels();
+        this.$emit('getModels');
+      } else {
+        this.getModelsByBrandID(catID);
+        this.$emit('getModelsByBrandID', { catID: catID, brandValue: this.brandValue })
+      }
     },
     createTime() {
       let today = new Date();
@@ -544,6 +606,7 @@ export default {
   created() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getModels();
+    this.getCategoryList();
   }
 }
 </script>
@@ -601,6 +664,18 @@ export default {
 
     .el-button {
       margin: 0px 10px;
+    }
+  }
+
+    ::v-deep.select-brand {
+    width: 100%;
+    margin-bottom: 5px;
+    .el-input__inner {
+      height: 28px;
+      line-height: 28px;
+    }
+    .el-input__icon {
+      line-height: 28px;
     }
   }
 </style>

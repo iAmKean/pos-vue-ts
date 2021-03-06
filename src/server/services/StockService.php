@@ -14,7 +14,7 @@ if ($params) {
     case 2:
     // select by
       $data = new StockData($conn);
-      echo json_encode($data->getSampleBy($params['data']));
+      echo json_encode($data->getModelsByBrandID($params['data']));
       break;
     case 3:
     // inserta data
@@ -55,6 +55,16 @@ if ($params) {
       // delete data
         $data = new StockData($conn);
         echo json_encode($data->countOutTotalModel($params['data']));
+        break;
+    case 11:
+      // delete data
+        $data = new StockData($conn);
+        echo json_encode($data->countLowTotalModelByBrandID($params['data']));
+        break;
+    case 12:
+      // delete data
+        $data = new StockData($conn);
+        echo json_encode($data->countOutTotalModelByBrandID($params['data']));
         break;
     default:
       echo "Invalid Request";
