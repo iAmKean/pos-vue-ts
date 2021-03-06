@@ -33,7 +33,10 @@
                   <!-- <el-tag type="danger">No available stock(s): {{ numberOutofStock }} <i class="el-icon-question"></i></el-tag> -->
                 </div>
               </div>
-              <Table @updateData="updateData()" @getModelsByBrandID="getModelsByBrandID($event)"/>
+              <Table
+                @updateData="updateData()"
+                @getModelsByBrandID="getModelsByBrandID($event)"
+                @getModels="getModels"/>
             </el-main>
           </el-container>
         </el-container>
@@ -185,6 +188,10 @@ export default {
         .catch(error => {
           console.log(error);
         });
+
+      this.countTotalModel();
+      this.countLowTotalModel();
+      // this.countOutTotalModel();
     },
     getModelsByBrandID(val) {
       this.countTotalModelByBrandCat(val.catID);
@@ -209,9 +216,6 @@ export default {
   },
   created() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    this.countTotalModel();
-    this.countLowTotalModel();
-    // this.countOutTotalModel();
     this.getModels();
   }
 };

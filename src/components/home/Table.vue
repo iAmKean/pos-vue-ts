@@ -73,7 +73,7 @@ export default {
       userInfo: {},
       itemInfo: {},
       options: [],
-      brandValue: ''
+      brandValue: 'All'
     }
   },
   methods: {
@@ -160,8 +160,14 @@ export default {
         });
     },
     selectCategory(catID) {
-      this.getModelsByBrandID(catID);
-      this.$emit('getModelsByBrandID', { catID: catID, brandValue: this.options[Number(this.brandValue - 1)].value })
+      this.brandValue = this.options[Number(this.brandValue)].value;
+      if (catID == '0' || catID == 0) {
+        this.getModels();
+        this.$emit('getModels');
+      } else {
+        this.getModelsByBrandID(catID);
+        this.$emit('getModelsByBrandID', { catID: catID, brandValue: this.brandValue })
+      }
     },
     getCategoryList() {
       let params = {
@@ -173,6 +179,7 @@ export default {
         .post(this.api.BrandServices, params)
         .then(response => {
           let newData = response.data;
+          this.options.push({id: '0', value: 'All', label: 'All' })
           newData.map((val) => {
             this.options.push({id: val.ID, value: val.Brand, label: val.Brand })
           });
